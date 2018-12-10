@@ -2,7 +2,7 @@
 
 ## 轻量敏捷看板，倾向技术管理者使用，GPL协议仅供使用与学习。 ##
 
-[![License](https://img.shields.io/aur/license/:packageName.svg)](http://www.gnu.org/licenses/gpl-3.0.html)
+[![License](https://img.shields.io/eclipse-marketplace/l/notepad4e.svg)](http://www.gnu.org/licenses/gpl-3.0.html)
 
 ### 构建
   git clone https://github.com/lujiang-wed/wed-kanban
