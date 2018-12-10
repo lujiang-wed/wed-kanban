@@ -1,0 +1,58 @@
+<form class="form-horizontal"  name="spaceDetail" method="post" action="" onsubmit="return checkParam();" >
+    <div class="control-group">
+        <label class="control-label">旧密码：</label>
+        <div class="controls"><input class="input-xxlarge" type="password" name="oldPwd" id="oldPwd" value=""></div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">新密码：</label>
+        <div class="controls"><input class="input-xxlarge" type="password" name="newPwd" id="newPwd" value=""></div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">确认新密码：</label>
+        <div class="controls"><input class="input-xxlarge" type="password" name="newPwdConfirm" id="newPwdConfirm" value=""></div>
+    </div>
+    <div class="text-center">
+        <div class="alert" id="alertText" style="display: none">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        <input type="submit" class="btn btn-primary" value="改密" >
+        <input type="hidden" id="result" value="$result">
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var result = document.getElementById("result").value;
+        if(result == "FAIL") {
+            alert("旧密码错误！");
+        }
+    });
+
+    function checkParam() {
+        var oldPwd = document.getElementById("oldPwd").value;
+        var newPwd = document.getElementById("newPwd").value;
+        var newPwdConfirm = document.getElementById("newPwdConfirm").value;
+
+        if(oldPwd == "") {
+            alert("旧密码不能为空！");
+            document.getElementById("oldPwd").focus();
+            return false;
+        } else if(newPwd == "") {
+            alert("新密码不能为空！");
+            document.getElementById("newPwd").focus();
+            return false;
+        } else if(newPwdConfirm == "") {
+            alert("确认新密码不能为空！");
+            document.getElementById("newPwdConfirm").focus();
+            return false;
+        }
+
+        if(newPwd == newPwdConfirm) {
+            return true;
+        } else {
+            alert("两次输入的新密码不一致！");
+
+            return false;
+        }
+    }
+</script>

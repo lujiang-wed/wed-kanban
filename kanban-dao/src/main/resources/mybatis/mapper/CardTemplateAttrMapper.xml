@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CardTemplateAttrMapper">
+  <resultMap id="BaseResultMap" type="com.wednesday.kanban.domain.CardTemplateAttr">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="template_id" jdbcType="BIGINT" property="templateId" />
+    <result column="attr_label" jdbcType="VARCHAR" property="attrLabel" />
+    <result column="input_type" jdbcType="VARCHAR" property="inputType" />
+    <result column="input_option" jdbcType="VARCHAR" property="inputOption" />
+    <result column="default_value" jdbcType="VARCHAR" property="defaultValue" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, template_id, attr_label, input_type, input_option, default_value, creator, create_time, 
+    modifier, modify_time
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from card_template_attr
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+
+
+  <select id="selectByTempleteId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from card_template_attr
+    where template_id = #{templateId,jdbcType=BIGINT}
+    and status=1
+  </select>
+
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update  card_template_attr
+    set status=0
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <insert id="insert" parameterType="com.wednesday.kanban.domain.CardTemplateAttr" useGeneratedKeys="true" keyProperty="id">
+    insert into card_template_attr (template_id, attr_label,
+      input_type, input_option, default_value, 
+      creator, create_time, modifier, 
+      modify_time)
+    values (#{templateId,jdbcType=BIGINT}, #{attrLabel,jdbcType=VARCHAR},
+      #{inputType,jdbcType=VARCHAR}, #{inputOption,jdbcType=VARCHAR}, #{defaultValue,jdbcType=VARCHAR}, 
+      #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, 
+      #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.wednesday.kanban.domain.CardTemplateAttr">
+    update card_template_attr
+    <set>
+      <if test="attrLabel != null">
+        attr_label = #{attrLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="inputOption != null">
+        input_option = #{inputOption,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultValue != null">
+        default_value = #{defaultValue,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>

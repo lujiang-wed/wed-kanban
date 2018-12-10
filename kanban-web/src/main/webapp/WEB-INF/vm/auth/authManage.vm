@@ -1,0 +1,257 @@
+<div class="tab-pane" id="auth">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>用户</th>
+            <th>空间ID</th>
+            <th>权限</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+
+        <tbody id="spaceTable">
+            #foreach($auth in $auths)
+            <tr>
+                <th id="user$!{auth.user}">$!{auth.user}</th>
+                <th id="sid$!{auth.user}">$!{auth.sid}</th>
+                <th id="privilege$!{auth.user}">$!{auth.privilege}</th>
+                <th>
+                    <a id="modifyButton$!{auth.user}" onclick="modifyButtom(this)">修改</a>|<a id="delButton$!{auth.user}" onclick="delButtom(this)">删除</a>
+                </th>
+            </tr>
+            #end
+        </tbody>
+    </table>
+    <a id="addAuthButton"  role="link" class="btn" data-toggle="modal">新增成员</a>
+##    <a onclick="addLine()">新增成员</a>
+
+
+</div>
+
+<div id="addModal" class="modal hide fade">
+    <div class="modal-dialog modal-sm" >
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h5>新增用户</h5>
+        </div>
+        <div class="modal-body">
+            <table>
+                <tr>
+                    <th>
+                        <label>用户：</label>
+                        <div><input id="userAdd"></div>
+                    </th>
+                    <th>
+                        <label>权限：</label>
+                        <div><select id="authAdd" name="请选择">
+                            <option value="r">只读</option>
+                            <option value="m">读写</option>
+                            <option value="s">空间管理</option>
+                        </select>
+                        </div>
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <a onclick="hideAddModal()">取消</a>
+            <a onclick="addAuth()" class="btn btn-small btn-primary">保存</a>
+        </div>
+    </div>
+</div>
+
+<div id="modifyModal" class="modal hide fade">
+    <div class="modal-dialog modal-sm" >
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h5>修改用户权限</h5>
+        </div>
+        <div class="modal-body">
+            <table>
+                <tr>
+                    <th>
+                        <label>用户：</label>
+                        <div><input id="userModify" disabled="true"></div>
+                    </th>
+                    <th>
+                        <label>权限：</label>
+                        <div><select id="authModify" name="请选择">
+                            <option value="r">只读</option>
+                            <option value="m">读写</option>
+                            <option value="s">空间管理</option>
+                        </select>
+                        </div>
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <a onclick="hideModifyModal()">取消</a>
+            <a onclick="modifyAuth()" class="btn btn-small btn-primary">保存</a>
+        </div>
+    </div>
+</div>
+
+<div id="delModal" class="modal hide fade">
+    <div class="modal-dialog modal-sm" >
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h5>删除用户</h5>
+        </div>
+        <div class="modal-body">
+            <table>
+                <tr>
+                    <th>
+                        <label>用户：</label>
+                        <div><input id="userDel" disabled="true"></div>
+                    </th>
+                    <th>
+                        <label>权限：</label>
+                        <div><select id="authDel" name="请选择"  disabled="true">
+                            <option value="r">只读</option>
+                            <option value="m">读写</option>
+                            <option value="s">空间管理</option>
+                        </select>
+                        </div>
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <a onclick="hideDelModal()">取消</a>
+            <a onclick="delAuth()" class="btn btn-small btn-primary">提交</a>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function addAuth(){//新增权限
+
+        var spaceId=$("#spaceId").val();
+        var user=$("#userAdd").val()
+        var auth=$("#authAdd").val()
+        if(spaceId=='' || user==''|| auth==''){
+            alert("用户或权限不能为空") ;
+            return;
+        }
+        $.ajax({
+            url:"/space/addAuth",
+            type:"GET",
+            data:{spaceId:spaceId,user:user,privilege:auth},
+            success:function(data){
+                //这里是执行程序之后的操作
+                alert(data) ;
+                hideAddModal();
+            }
+        } );
+
+
+    }
+    function modifyAuth(){//修改权限
+
+        var spaceId=$("#spaceId").val();
+        var user=$("#userModify").val()
+        var auth=$("#authModify").val()
+        if(spaceId=='' || user==''|| auth==''){
+            alert("用户或权限不能为空") ;
+            return;
+        }
+        $.ajax({
+            url:"/space/modifyAuth",
+            type:"GET",
+            data:{spaceId:spaceId,user:user,privilege:auth},
+            success:function(data){
+                //这里是执行程序之后的操作
+                alert(data) ;
+                hideModifyModal();
+            }
+        } );
+    }
+
+    function delAuth(sid){
+        var spaceId=$("#spaceId").val();
+        var user=$("#userDel").val()
+        var auth=$("#authDel").val()
+        if(spaceId=='' || user==''|| auth==''){
+            alert("用户或权限不能为空") ;
+            return;
+        }
+
+        $.ajax({
+                    url:"/space/delAuth",
+                    type:"GET",
+                    data:{spaceId:spaceId,user:user,privilege:auth},
+                    success:function(data){
+                        //这里是执行程序之后的操作
+                        alert(data) ;
+                        hideDelModal();
+                    }
+                }
+        );
+    }
+
+    $('#addAuthButton').click(function(){
+        $('#addModal').modal('show');
+        $('#userAdd').val("");
+    });
+    function modifyButtom(t){
+        $('#modifyModal').modal('show');
+        var user =  $(t).parent().prev().prev().prev().text();
+        $('#userModify').val(user);
+        var privilege =  $(t).parent().prev().text();
+        var temp;
+        if(privilege=="只读"){
+            temp = "r";
+        }else if(privilege=="读写"){
+            temp = "m";
+        }else if(privilege=="空间管理"){
+            temp = "s";
+        }else{
+            temp = "r";
+        }
+        var authSelections =document.getElementById("authModify").getElementsByTagName("option");
+        for(var i = 0; i < authSelections.length; i++) {
+            if(authSelections[i].value==temp) {
+                authSelections[i].setAttribute("selected","true");
+            } else {
+                authSelections[i].removeAttribute("selected");
+            }
+        }
+    }
+
+    function delButtom(t){
+        $('#delModal').modal('show');
+        var user =  $(t).parent().prev().prev().prev().text();
+        $('#userDel').val(user);
+        var privilege =  $(t).parent().prev().text();
+        var temp;
+        if(privilege=="只读"){
+            temp = "r";
+        }else if(privilege=="读写"){
+            temp = "m";
+        }else if(privilege=="空间管理"){
+            temp = "s";
+        }else{
+            temp = "r";
+        }
+        var authSelections =document.getElementById("authDel").getElementsByTagName("option");
+        for(var i = 0; i < authSelections.length; i++) {
+            if(authSelections[i].value==temp) {
+                authSelections[i].setAttribute("selected","true");
+            } else {
+                authSelections[i].removeAttribute("selected");
+            }
+        }
+    }
+
+    function hideAddModal(){//隐藏浮层：添加权限
+        $('#addModal').modal('hide')
+    }
+    function hideModifyModal(){//隐藏浮层：修改权限
+        $('#modifyModal').modal('hide')
+    }
+    function hideDelModal(){//隐藏浮层：修改权限
+        $('#delModal').modal('hide')
+    }
+</script>

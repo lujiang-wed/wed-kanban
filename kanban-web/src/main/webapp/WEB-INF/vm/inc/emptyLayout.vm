@@ -1,0 +1,3 @@
+#set($assetsServer="http://localhost:80")
+#set($title="WED-KANBAN")
+$screen_content

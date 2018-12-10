@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="OpLogMapper">
+  <resultMap id="BaseResultMap" type="com.wednesday.kanban.domain.OpLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="op_type" jdbcType="VARCHAR" property="opType" />
+    <result column="op_object" jdbcType="BIGINT" property="opObject" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="init_status" jdbcType="VARCHAR" property="initStatus" />
+    <result column="change_status" jdbcType="VARCHAR" property="changeStatus" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+
+    <sql id="Base_Column_List">
+        id, op_type, op_object, operator, init_status, change_status, remark, creator, create_time,
+        modifier, modify_time
+    </sql>
+
+    <select id="findOne" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from op_log
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <sql id="Conditions">
+        where status = 1
+        <if test="opType != null">
+            and op_type = #{opType,jdbcType=VARCHAR},
+        </if>
+        <if test="opObject != null">
+            and op_object = #{opObject,jdbcType=BIGINT},
+        </if>
+        <if test="operator != null">
+            and operator = #{operator,jdbcType=VARCHAR},
+        </if>
+        <if test="initStatus != null">
+            and init_status = #{initStatus,jdbcType=VARCHAR},
+        </if>
+        <if test="changeStatus != null">
+            and change_status = #{changeStatus,jdbcType=VARCHAR},
+        </if>
+        <if test="remark != null">
+            and remark = #{remark,jdbcType=VARCHAR},
+        </if>
+        <if test="creator != null">
+            and creator = #{creator,jdbcType=VARCHAR},
+        </if>
+        <if test="modifier != null">
+            and modifier = #{modifier,jdbcType=VARCHAR},
+        </if>
+        <if test="queryCreateBegin != null">
+            and create_time <![CDATA[>=]]> #{queryCreateBegin,jdbcType=TIMESTAMP}
+        </if>
+        <if test="queryCreateEnd != null">
+            and create_time <![CDATA[<=]]> #{queryCreateEnd,jdbcType=TIMESTAMP}
+        </if>
+        <if test="queryModifyBegin != null">
+            and modify_time <![CDATA[>=]]> #{queryModifyBegin,jdbcType=TIMESTAMP}
+        </if>
+        <if test="queryModifyEnd != null">
+            and modify_time <![CDATA[<=]]> #{queryModifyEnd,jdbcType=TIMESTAMP}
+        </if>
+    </sql>
+
+    <select id="findByPage" parameterType="com.wednesday.kanban.common.param.OpLogQueryParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from op_log
+        <include refid="Conditions" />
+        order create_time
+        limit
+        #{startIdx,jdbcType=INTEGER},
+        #{pageSize,jdbcType=INTEGER}
+    </select>
+    <select id="findByPage-count" parameterType="com.wednesday.kanban.common.param.OpLogQueryParam" resultType="java.lang.Integer">
+        select
+        count(*)
+        from op_log
+        <include refid="Conditions" />
+    </select>
+
+    <!--日志应该没有删除操作，备用-->
+    <update id="deleteOpLog" parameterType="java.lang.Long">
+        update  op_log
+        set status = 0
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insert" parameterType="com.wednesday.kanban.domain.OpLog">
+        insert into op_log (op_type, op_object,
+        operator, init_status, change_status,
+        remark, creator, create_time,
+        modifier, modify_time)
+        values ( #{opType,jdbcType=VARCHAR}, #{opObject,jdbcType=BIGINT},
+        #{operator,jdbcType=VARCHAR}, #{initStatus,jdbcType=VARCHAR}, #{changeStatus,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+        #{modifier,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <!--日志的修改操作也尚未释放-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.wednesday.kanban.domain.OpLog">
+        update op_log
+        <set>
+            <if test="opType != null">
+                op_type = #{opType,jdbcType=VARCHAR},
+            </if>
+            <if test="opObject != null">
+                op_object = #{opObject,jdbcType=BIGINT},
+            </if>
+            <if test="operator != null">
+                operator = #{operator,jdbcType=VARCHAR},
+            </if>
+            <if test="initStatus != null">
+                init_status = #{initStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="changeStatus != null">
+                change_status = #{changeStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

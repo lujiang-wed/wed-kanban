@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+    <typeAliases>
+
+    </typeAliases>
+    <mappers>
+        <mapper resource="mybatis/mapper/CardAttrInstanceMapper.xml" />
+        <mapper resource="mybatis/mapper/CardInstanceMapper.xml" />
+        <mapper resource="mybatis/mapper/CardTemplateAttrMapper.xml" />
+        <mapper resource="mybatis/mapper/CardTemplateMapper.xml" />
+        <mapper resource="mybatis/mapper/CommentMapper.xml" />
+        <mapper resource="mybatis/mapper/OpLogMapper.xml" />
+        <mapper resource="mybatis/mapper/SpaceMapper.xml" />
+        <mapper resource="mybatis/mapper/AuthMapper.xml" />
+        <mapper resource="mybatis/mapper/AuthorityContentMapper.xml" />
+        <mapper resource="mybatis/mapper/UserInstanceMapper.xml" />
+        <mapper resource="mybatis/mapper/TemplateAttrIndexMapper.xml" />
+    </mappers>
+
+</configuration>

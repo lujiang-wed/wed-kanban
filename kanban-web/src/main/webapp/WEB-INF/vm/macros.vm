@@ -1,0 +1,192 @@
+#*
+* 根据商品id取到商品的详细页地址
+* author guoweiwei
+*#
+#macro(getItemUrl $itemId)#set($url="http://www.hongxiujie.com/share/item/$!itemId")$!securityUtil.escapeHtml($url)#end
+
+#*
+* 根据话题id取到话题的详细页地址
+* author guoweiwei
+*#
+#macro(getTopicUrl $topicId)#set($url="http://www.hongxiujie.com/topic/detail/$!topicId")$!securityUtil.escapeHtml($url)#end
+
+
+#**
+* 字符串长度截取,后边加上...
+* author guoweiwei
+**#
+#macro(showContent $macroContent $length)$!stringUtil.getLimitLengthString($!{macroContent},$!{length})#end
+
+#**
+* 显示指定长度的用户名称,如果真名不为空显示真名,否则显示昵称
+* author guoweiwei
+**#
+#macro(showUserName $nick $realName $size)#if($!stringUtil.isNotEmpty($!realName))$!securityUtil.escapeHtml($stringUtil.getFormattedTitle($realName,$size))#else$!securityUtil.escapeHtml($stringUtil.getFormattedTitle($nick,$size))#end#end
+
+#**
+* 获取缩略图
+* author guoweiwei
+**#
+#macro(getThumbPic $picUrl $sizeX $sizeY)$!picUtil.getThumbPic($!{picUrl},$!{sizeX},$!{sizeY})#end
+
+#**
+* 显示用户的头像
+* author guoweiwei
+**#
+#macro(getAvator $picUrl $size)#set($pic = "#")#set($spec = ".")#if($size&&$!{size}>0)#set($ext = "_$!{size}")#end#if($picUrl&&$picUrl.length()>4)#set($url = "$picUrl$!{ext}")#set($pic = "${url}")#else#set($pic = "http://img0.hongxiujie.com/farm1/old/avator/pic/avator/default.jpg$!{ext}")#end$!{pic}#end
+
+#*
+* 根据GMT时间显示格式化的时间
+* author guoweiwei
+*#
+#macro(showDate $gmt)$!dateUtil.formatEx($!{gmt})#end
+
+#*
+* 根据GMT时间显示格式化的标准时间:yyyy-MM-dd HH:mm
+* author zhouqiang
+* Demo:  #showDateFormat($!{log.gmtCreate})
+*#
+#macro(showDateFormat $gmt)$!date.format('yyyy-MM-dd HH:mm',$gmt)#end
+
+#**
+* 显示用户等级
+* author guoweiwei
+**#
+#macro(showUserLevel $score)
+	#if($!{score}>=0 && $!{score}<100)<img src="http://s0.hongxiujie.com/img/lv1.png" alt="一级"/>
+	#elseif($!{score}>=100 && $!{score}<200)<img src="http://s0.hongxiujie.com/img/lv2.png" alt="二级"/>
+	#elseif($!{score}>=200 && $!{score}<500)<img src="http://s0.hongxiujie.com/img/lv3.png" alt="三级"/>
+	#elseif($!{score}>=500 && $!{score}<1000)<img src="http://s0.hongxiujie.com/img/lv4.png" alt="四级"/>
+	#elseif($!{score}>=1000 && $!{score}<2000)<img src="http://s0.hongxiujie.com/img/lv5.png" alt="五级"/>
+	#elseif($!{score}>=2000 && $!{score}<5000)<img src="http://s0.hongxiujie.com/img/lv6.png"alt="六级"/>
+	#elseif($!{score}>=5000 && $!{score}<10000)<img src="http://s0.hongxiujie.com/img/lv7.png" alt="七级"/>
+	#elseif($!{score}>=10000 && $!{score}<100000)<img src="http://s0.hongxiujie.com/img/lv8.png" alt="八级"/>
+	#elseif($!{score}>=100000)<img src="http://s0.hongxiujie.com/img/lv9.png" alt="九级"/>
+	#end
+#end
+
+#**
+* 显示计数，如果为0不显示，如果>0，显示为(10)
+* author guoweiwei
+**#
+#macro(showCount $count)#if($!{count}>0 && $!{count}<10000)(<em class="count">$!{count}</em>)#elseif($!{count}>9999)(<em class="count">1万+</em>)#else<em class="count"></em>#end#end
+
+#**
+* 显示计数,主要用以ajax，如果为0不显示，如果>0，显示为(10)
+* author guoweiwei
+**#
+#macro(showAjaxCount $count)#if($!{count}>0 && $!{count}<10000)(<em class=\"count\">$!{count}</em>)#elseif($!{count}>9999)(<em class=\"count\">1万+</em>)#else<em class=\"count\"></em>#end#end
+
+
+#**
+* 显示达人信息
+**#
+#macro(showStar $star)#if($!stringUtil.isNotEmpty($!{star}))<span class="star">$!{star}</span>#end#end
+
+
+#*
+* 根据淘宝图片地址获取淘宝缩略图
+* author guoweiwei
+*#
+#macro(getTaobaoPic $picUrl $size)$!{picUrl}_$!{size}x$!{size}.jpg#end
+
+#*
+* 根据图片地址获取我们自己的缩略图
+* author guoweiwei
+*#
+#macro(getItemPic $picUrl $size)$!{picUrl}_$!{size}#end
+
+#**
+* 分页宏,会显示页码的哦
+* author guoweiwei
+* @param query 查询对象
+* @param url 链接地址，请带上最后的?或者&，如http://www.hongxiujie.com/cat?或者http://www.hongxiujie.com/cat?id=123&
+* @return 返回分页片段代码,页码的链接将会是$!{url}page=${currentPage},如http://www.hongxiujie.com/cat?page=2或者http://www.hongxiujie.com/cat?id=123&page=2
+**#
+#macro(showPage $query  $url)
+	##定义左边和右边的显示的页数
+#if($query.totalPage > 1)
+	<div class="pagination">
+	#set($displaySingleSize =  2)
+	##显示 上一页 标签
+	  #if( $query.firstPage )
+		<a class="page-up">上一页</a> 
+	  #else
+	    <a class="page-up" href="$!{url}page=$query.previousPage" data-page="$query.previousPage">上一页</a> 
+	  #end
+	
+	##左边的1和2是固定显示的
+	 #if ($query.currentPage > $displaySingleSize )
+	   #foreach($i in [1..$displaySingleSize])
+	    ##避免后面重复显示
+	    #if($query.currentPage - $displaySingleSize > $i)
+			<a href="$!{url}page=$!{i}" data-page="$!{i}">$i</a>
+	    #end
+	   #end
+	 #end
+	
+	##如果页数距第一页太大，则显示省略号。
+	 #if ($query.currentPage > $displaySingleSize + $displaySingleSize + 1)
+	    <span class="page-break">…</span>
+	  #end
+	
+	  ##计算当前页前面部分
+	  #set($startIndex =  $query.currentPage - $displaySingleSize)
+	  #set($endIndex =  $startIndex + $displaySingleSize)
+	
+	  ##如果后面不能完整显示(快到尾)，显示把后面需要显示的条数提到前面去。
+	  ##if($query.currentPage + $displaySingleSize > $query.totalPage)
+	   ##set($startIndex = $startIndex - $displaySingleSize + ($query.totalPage - $query.currentPage))
+	  ##end
+	
+	  #foreach($i in [$startIndex..$endIndex])
+	    #if($i > 0 && $i < $query.currentPage)	
+				<a href="$!{url}page=$!{i}" data-page="$!{i}">$i</a>
+	    #end
+	  #end
+	##显示当前页
+	  <span class="current-page">$query.currentPage</span>
+	##计算当前页后面部分
+	 #set($startIndex =  $query.currentPage + 1)
+	 #set($endIndex =  $startIndex + $displaySingleSize - 1)
+	##如果前面不能完整显示(在前页)，则把前面需要显示的条数拿到后面去
+	 ##if($query.currentPage < $displaySingleSize)
+	   ##set($endIndex =  $endIndex + $displaySingleSize - ( $displaySingleSize - $query.currentPage ))
+	 ##end
+	  #foreach($i in [$startIndex..$endIndex])
+	    #if($i <= $query.totalPage)
+			<a href="$!{url}page=$!{i}"data-page="$!{i}">$i</a>
+	    #end
+	  #end
+	##如果距离后面太远，则显示省略号
+	  #if ($query.currentPage <  $query.totalPage - $displaySingleSize - $displaySingleSize )
+	    <span class="page-break">…</span>
+	   #end
+	  ##显示后面固定的。
+	  #if ($query.currentPage < $query.totalPage - $displaySingleSize )
+	  #set($startIndex =  $query.totalPage - $displaySingleSize + 1)
+	    #foreach($i in [$startIndex..$query.totalPage])
+	##避免前面重复显示
+	     #if($i - $query.currentPage - $displaySingleSize  > 0)
+			<a href="$!{url}page=$!{i}" data-page="$!{i}">$i</a>
+	     #end
+	    #end
+	  #end
+	  ##固定显示后一页
+	  #if ($query.lastPage)
+		<a class="page-down">下一页</a> 
+	  #else
+	    <a class="page-down" href="$!{url}page=$query.nextPage" data-page="$query.nextPage">下一页</a> 
+	  #end
+	  </div>
+#end
+#end
+
+#**
+* 分页宏,会显示页码的哦
+* author guoweiwei
+* @param query 查询对象
+* @param url 链接地址，请带上最后的?或者&，如http://www.hongxiujie.com/cat?或者http://www.hongxiujie.com/cat?id=123&
+* @return 返回分页片段代码,页码的链接将会是$!{url}page=${currentPage},如http://www.hongxiujie.com/cat?page=2或者http://www.hongxiujie.com/cat?id=123&page=2
+**#
+#macro(showAjaxPage $query  $url)#if($query.totalPage > 1)<div class=\"pagination\">#set($displaySingleSize =  2)#if( $query.firstPage )<a class=\"page-up\">上一页</a>#else<a class=\"page-up\" href=\"javascript:void(0);\" data-page=\"$query.previousPage\">上一页</a> #end #if($query.currentPage > $displaySingleSize )#foreach($i in [1..$displaySingleSize])#if($query.currentPage - $displaySingleSize > $i)<a data-page=\"$!{i}\" href=\"javascript:void(0);\">$i</a>#end #end #end #if ($query.currentPage > $displaySingleSize + $displaySingleSize + 1)<span class=\"page-break\">…</span>#end #set($startIndex =  $query.currentPage - $displaySingleSize)#set($endIndex =  $startIndex + $displaySingleSize)#foreach($i in [$startIndex..$endIndex])#if($i > 0 && $i < $query.currentPage)<a data-page=\"$!{i}\" href=\"javascript:void(0);\">$i</a>#end #end <span class=\"current-page\">$query.currentPage</span>#set($startIndex =  $query.currentPage + 1)#set($endIndex =  $startIndex + $displaySingleSize - 1)#foreach($i in [$startIndex..$endIndex])#if($i <= $query.totalPage)<a data-page=\"$!{i}\" href=\"javascript:void(0);\">$i</a>#end #end #if($query.currentPage <  $query.totalPage - $displaySingleSize - $displaySingleSize )<span class=\"page-break\">…</span>#end #if ($query.currentPage < $query.totalPage - $displaySingleSize )#set($startIndex =  $query.totalPage - $displaySingleSize + 1)#foreach($i in [$startIndex..$query.totalPage])#if($i - $query.currentPage - $displaySingleSize  > 0)<a data-page=\"$!{i}\" href=\"javascript:void(0);\">$i</a>#end #end #end #if($query.lastPage)<a class=\"page-down\">下一页</a>#else<a class=\"page-down\" data-page=\"$query.nextPage\" href=\"javascript:void(0);\">下一页</a>#end</div>#end #end

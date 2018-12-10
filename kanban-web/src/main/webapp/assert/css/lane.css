@@ -1,0 +1,50 @@
+html,body{width: 100%;text-align: center;color: #444;font-family: "microsoft yahei";margin: 0px;padding: 0px;}
+.clearfix{zoom: 1;}
+.clearfix:after,.clearfix:before{display: table;content: "";}
+.clearfix:after{clear: both;}
+.container{width: 100%;}
+.span{width:12%;float: left;min-height: 1500px;}
+.span p{height: 25px;line-height: 14px;border-bottom: 1px solid #ccc;}
+.span p label{font-size: 12px;background-color: #86C6C3;padding: 2px;margin-left: 5px;}
+.span p strong{font-size: 16px;}
+.border-left{border-left:1px solid #CCC; }
+.border-right{border-right: 1px solid #CCC;}
+
+@media screen and (max-width:1366px) {
+    .card{position:absolute;width: 137px;height: 120px;border-radius: 5px;font-size: 12px;margin:12px;cursor: move;}
+    .card .mid{margin-top:35px;position:absolute;margin-left: -65px;width: 95%;text-align: left;}
+    .card .left{float: left;margin-left: 0;}
+    .card .right{float: right;margin-right: 0;}
+    .card .buttom{margin-top:75px; }
+    .card label{width: 50px;height: 20px;}
+}
+@media screen and (min-width: 1800px) and (max-width:1920px) {
+    .card{position:absolute;width: 193px;height: 150px;border-radius: 5px;font-size: 12px;margin:16px;cursor: move;}
+    .card .mid{margin-top:35px;position:absolute;margin-left: -80px;width: 86%;text-align: left;}
+    .card .left{float: left;left: 0px;}
+    .card .right{float: right;right: 0;}
+    .card .buttom{margin-top:130px; }
+    .card label{width: 50px;height: 20px;position:absolute;}
+}
+
+.mt5{margin-top: 5px;}
+.card-color-green{background-color: #88C675;border: 1px solid #13C612;}
+.card-color-blue{background-color: #7FC2C6;border: 1px solid #2580C6;}
+.card-color-white{background-color: #E6E8F1;border: 1px solid #C5C6CE;}
+.card-color-red{background-color: #E092D2;border: 1px solid #E03CE0;}
+.card:hover{
+    box-shadow: 5px 5px 5px #CCC;
+    -moz-box-shadow: 5px 5px 5px #CCC;
+    -webkit-transform: scale(1.1,1.1);
+    -moz-transform: scale(1.1,1.1);
+    -ms-transform: scale(1.1,1.1);
+    -o-transform: scale(1.1,1.1);
+    transform: scale(1.1,1.1);}
+
+a:link,a:visited{
+    text-decoration: none;  /*超链接无下划线*/
+    color: #000000;
+}
+a:hover{
+    text-decoration: underline;  /*鼠标放上去有下划线*/
+}

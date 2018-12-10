@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="AuthMapper" >
+  <resultMap id="BaseResultMap" type="com.wednesday.kanban.domain.Auth" >
+    <id column="user" property="user" jdbcType="VARCHAR" />
+    <id column="sid" property="sid" jdbcType="BIGINT" />
+    <result column="privilege" property="privilege" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user, sid, privilege
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.wednesday.kanban.domain.Auth" >
+    select 
+    <include refid="Base_Column_List" />
+    from auth
+    where user = #{user,jdbcType=VARCHAR}
+      and sid = #{sid,jdbcType=BIGINT}
+  </select>
+  <select id="selectBySid" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from auth
+    where sid = #{sid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByUser" resultMap="BaseResultMap" parameterType="com.wednesday.kanban.domain.Auth" >
+    select
+    <include refid="Base_Column_List" />
+    from auth
+    where user = #{user,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from auth
+    where 1=1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.wednesday.kanban.domain.Auth" >
+    delete from auth
+    where user = #{user,jdbcType=VARCHAR}
+      and sid = #{sid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wednesday.kanban.domain.Auth" >
+    insert into auth (user, sid, privilege
+      )
+    values (#{user,jdbcType=VARCHAR}, #{sid,jdbcType=BIGINT}, #{privilege,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <update id="updateByAuth" parameterType="com.wednesday.kanban.domain.Auth" >
+      update auth
+      set privilege = #{privilege,jdbcType=VARCHAR}
+      where user = #{user,jdbcType=VARCHAR}
+      and sid = #{sid,jdbcType=BIGINT}
+  </update>
+
+  <delete id="delByAuth" parameterType="com.wednesday.kanban.domain.Auth" >
+      delete from auth
+      where user = #{user,jdbcType=VARCHAR}
+      and sid = #{sid,jdbcType=BIGINT}
+  </delete>
+
+  <update id="updateByPrimaryKey" parameterType="com.wednesday.kanban.domain.Auth" >
+    update auth
+    set privilege = #{privilege,jdbcType=VARCHAR}
+    where user = #{user,jdbcType=VARCHAR}
+      and sid = #{sid,jdbcType=BIGINT}
+  </update>
+</mapper>

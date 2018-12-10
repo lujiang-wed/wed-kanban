@@ -1,0 +1,20 @@
+
+    #if($item.inputValue)
+        #set($currentValue = $item.inputValue)
+    #else
+        #set($currentValue = $item.defaultValue)
+    #end
+
+    #foreach($value in $item.valueList)
+        <div class="btn-group">
+        <label class="radio">
+
+            #if($value == $currentValue)
+                <input type="radio" name="${item.id}" class="templateAttr" value="${value}" checked> ${value}
+            #else
+                <input type="radio" name="${item.id}" class="templateAttr" value="${value}"> ${value}
+            #end
+
+        </label>
+        </div>
+   #end

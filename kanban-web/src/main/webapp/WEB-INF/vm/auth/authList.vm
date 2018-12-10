@@ -1,0 +1,19 @@
+<div class="tab-pane" id="auth">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>权限ID</th>
+            <th>权限说明</th>
+        </tr>
+        </thead>
+
+        <tbody id="spaceTable">
+            #foreach($data in $auths)
+                <tr>
+                    <th >$!{data.code}</th>
+                    <th >$!{data.desc}</th>
+                </tr>
+             #end
+        </tbody>
+        </table>
+</div>

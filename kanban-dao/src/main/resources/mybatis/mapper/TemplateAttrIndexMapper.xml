@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TemplateAttrIndexMapper">
+
+    <resultMap id="BaseResultMap" type="com.wednesday.kanban.domain.TemplateAttrIndex">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="template_id" property="templateId" jdbcType="BIGINT" />
+        <result column="attr_id" property="attrId" jdbcType="BIGINT" />
+        <result column="attr_label" property="attrLabel" jdbcType="VARCHAR" />
+        <result column="index" property="index" jdbcType="BIGINT" />
+        <result column="show" property="show" jdbcType="TINYINT" />
+        <result column="status" property="status" jdbcType="TINYINT" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        template_id, attr_id, attr_label, template_attr_for_index.index, template_attr_for_index.show, template_attr_for_index.status
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="com.wednesday.kanban.domain.TemplateAttrIndex" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from template_attr_for_index
+        where template_id = #{templateId,jdbcType=BIGINT} and attr_label = #{attrLabel,jdbcType=VARCHAR} and status = 1
+        ORDER BY attr_id
+    </select>
+
+
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from template_attr_for_index
+        where template_id = #{templateId,jdbcType=BIGINT}
+        and status=1
+    </select>
+
+
+    <update id="updateIndexById"  parameterType="com.wednesday.kanban.domain.TemplateAttrIndex">
+        update  template_attr_for_index
+        set template_attr_for_index.index = #{index,jdbcType=BIGINT}
+        where template_id = #{templateId,jdbcType=BIGINT} and attr_label = #{attrLabel,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateShowById"  parameterType="com.wednesday.kanban.domain.TemplateAttrIndex">
+        update  template_attr_for_index
+        set template_attr_for_index.show = #{show,jdbcType=TINYINT}
+        where template_id = #{templateId,jdbcType=BIGINT} and attr_label = #{attrLabel,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteByPrimaryKey" parameterType="com.wednesday.kanban.domain.TemplateAttrIndex">
+        update  template_attr_for_index
+        set status=0
+        where template_id = #{templateId,jdbcType=BIGINT} and attr_label = #{attrLabel,jdbcType=VARCHAR}
+    </update>
+
+
+    <insert id="insert"  parameterType="com.wednesday.kanban.domain.TemplateAttrIndex">
+    insert into template_attr_for_index (template_id,attr_label,template_attr_for_index.index,template_attr_for_index.show)
+    values (#{templateId,jdbcType=BIGINT}, #{attrLabel,jdbcType=VARCHAR}, #{index, jdbcType=BIGINT}, #{show,jdbcType=TINYINT})
+    </insert>
+
+
+</mapper>

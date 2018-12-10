@@ -1,0 +1,63 @@
+<di>
+    <h5>卡片名: ${cardTitle} </h5>
+    <h5>模板为:${templateName}</h5>
+</di>
+
+<div>
+    <form id="fillAttrForm" action="/card/submitCopyAttr.htm" method="POST" >
+        <table class="table">
+            #parse("card/cardAttr.vm")
+
+            <tr>
+                <td><input type="hidden" id="cardId" name="cardId" value="${cardId}" /></td>
+                <td><a class="btn btn-large btn-primary" onclick="submitAttr()">提交</a></td>
+                <input type="hidden" id="spaceId" name="spaceId" value="${spaceId}" />
+                <input type="hidden" id="templateId" name="templateId" value="${templateId}" />
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+    var curWwwPath=window.document.location.href;
+    var pathName=window.document.location.pathname;
+    var pos=curWwwPath.indexOf(pathName);
+    var localhostPaht=curWwwPath.substring(0,pos);
+
+    $(document).ready(function () {
+        document.getElementById("LeftBox").style.display="none";
+    });
+
+    function submitAttr() {
+        var formData = $("#fillAttrForm").serializeArray();
+        var flag = 0;
+//        $.each(formData, function (i, field) {
+//            if ("" == field.value) {
+//                alert("卡片属性尚未完全初始化");
+//                flag = 1;
+//            }
+//        });
+
+        var numberTemplateList = $(".numberTemplate");
+        for (var i = 0; i < numberTemplateList.length; i++) {
+            if (isNaN(numberTemplateList[i].value)) {
+                alert(numberTemplateList[i].parentNode.parentNode.firstChild.innerHTML + "只能为数字");
+                flag = 1;
+                break;
+            }
+        }
+
+        if (flag == 0) {
+            $("#fillAttrForm").submit();
+        }
+    }
+
+    var editor = new baidu.editor.ui.Editor({
+        maximumWords:4096,
+        saveInterval: 5000000
+    });
+    var richList = $(".richTextTemplate");
+    for (var i=0;i<richList.length;i++){
+        editor.render( richList[i].id ); //此处的参数值为编辑器的id值
+    }
+</script>

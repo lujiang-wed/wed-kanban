@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="css/lane.css" rel="stylesheet">
+    <script src="js/lane.js"></script>
+    <!--<script src="../js/jquery-ui.js"></script>-->
+
+</head>
+<body>
+<div class="container clearfix" id="con">
+    <div class="span border-left" id="span1">
+        <div class="title" id="title"><p><label>参与人员</label><label>人员2</label></p><p><strong>需求池</strong></p></div>
+        <div class="card card-color-blue" id="card1-1">
+            <label class="left mt5">NUM1</label><label class="right mt5">NUM2</label>
+            <label class="left buttom">NUM3</label><label class="right buttom">NUM4</label>
+            <span class="mid">项目详情描述：读写分离优化</span>
+        </div>
+        <div class="card card-color-green" id="card1-2">
+            <label class="left mt5">NUM1</label><label class="right mt5">NUM2</label>
+            <label class="left buttom">NUM3</label><label class="right buttom">NUM4</label>
+            <span class="mid">个人站安全中心改版</span>
+        </div>
+    </div>
+    <div class="span border-left" id="span2">
+        <div class="title"><p><label>人员2</label></p><p><strong>待开发</strong></p></div>
+        <div class="card card-color-red" id="card2-1">
+            <label class="left mt5">NUM1</label><label class="right mt5">NUM2</label>
+            <label class="left buttom">NUM3</label><label class="right buttom">NUM4</label>
+            <span class="mid">项目详情描述：读写分离优化</span>
+        </div>
+    </div>
+    <div class="span border-left" id="span3">
+        <div class="title"><p><label>人员3</label></p><p><strong>开发中</strong></p></div>
+        <div class="card card-color-white" id="card3-1">
+            <label class="left mt5">NUM1</label><label class="right mt5">NUM2</label>
+            <label class="left buttom">NUM3</label><label class="right buttom">NUM4</label>
+            <span class="mid">项目详情描述：读写分离优化</span>
+        </div>
+    </div>
+    <div class="span border-left" id="span4">
+        <div class="title"><p><label>人员</label></p><p><strong>待测试</strong></p></div>
+        <div class="card card-color-blue" id="card4-1">
+            <label class="left mt5">NUM1</label><label class="right mt5">NUM2</label>
+            <label class="left buttom">NUM3</label><label class="right buttom">NUM4</label>
+            <span class="mid">项目详情描述：读写分离优化</span>
+        </div>
+    </div>
+    <div class="span border-left" id="span5">
+        <div class="title"><p><label>人员</label></p><p><strong>测试中</strong></p></div>
+        <div class="card card-color-green" id="card5-1">
+            <label class="left mt5">NUM1</label><label class="right mt5">NUM2</label>
+            <label class="left buttom">NUM3</label><label class="right buttom">NUM4</label>
+            <span class="mid">项目详情描述：读写分离优化</span>
+        </div>
+    </div>
+    <div class="span border-left" id="span6">
+        <div class="title"><p><label>人员</label></p><p><strong>测试通过</strong></p></div>
+        <div class="card card-color-white" id="card6-1">
+            <label class="left mt5">NUM1</label><label class="right mt5">NUM2</label>
+            <label class="left buttom">NUM3</label><label class="right buttom">NUM4</label>
+            <span class="mid">项目详情描述：读写分离优化</span>
+        </div>
+    </div>
+    <div class="span border-left" id="span7">
+        <div class="title"><p><label>人员</label></p><p><strong>产品验收</strong></p></div>
+        <div class="card card-color-red" id="card7-1">
+            <label class="left mt5">NUM1</label><label class="right mt5">NUM2</label>
+            <label class="left buttom">NUM3</label><label class="right buttom">NUM4</label>
+            <span class="mid">项目详情描述：读写分离优化</span>
+        </div>
+    </div>
+    <div class="span border-left border-right" id="span8">
+        <div class="title"><p><p><strong>最近一周已完成</strong></p></div>
+
+    </div>
+</div>
+<script type="text/javascript" src="js/lane.js">
+/*$(function(){
+    var conOffsetLeft = document.getElementById("con").offsetLeft;
+    var conOffsetWidth = document.getElementById("con").offsetWidth;
+    $("#con").sortable({
+        items: ".card",
+        update: function(event,ui){
+            console.log("sort");
+        }
+    })
+
+});*/
+</script>
+</body>
+<!--<script type="text/javascript">
+    var cards = document.getElementsByClassName("card");
+    var mouseOffsetX = 0,
+            mouseOffsetY = 0,
+            cardId = 0,
+            isDrag = false;
+    var handlers = function(nodes){
+        var helper = function(i){
+            return function(e){
+                e = e || window.event;
+                cardId = this.parentNode.id;
+                mouseOffsetX = e.pageX - this.offsetLeft; //鼠标位置 - 这个card对象相对于父div的左边距
+                mouseOffsetY = e.pageY - this.offsetTop;
+                console.log("鼠标指针的位置：e.page:"+ e.pageX+";"+ e.pageY);
+                console.log(""+mouseOffsetX,mouseOffsetY+"---mousedown ID:"+cardId);
+                isDrag = true;
+            }
+        }
+        var moveHelper = function(i){
+            return function(e){
+                e = e || window.event;
+                var mouseX = e.pageX,mouseY = e.pageY;
+                var moveX = 0,moveY = 0;
+                if(isDrag === true){
+                    moveX = mouseX - mouseOffsetX - this.parentNode.offsetLeft;
+                    moveY = mouseY - mouseOffsetY - this.parentNode.offsetTop;
+                    console.log("mouse"+mouseX,mouseY);
+                    console.log("move:"+moveX,moveY);
+                    cards[i].style.left = moveX + "px";
+                    cards[i].style.top = moveY + "px";
+                }
+            }
+        }
+        var upHelper = function(i){
+            return function(e){
+                isDrag = false;
+                mouseOffsetX = 0;
+                mouseOffsetY = 0;
+                cardId = "span"+pos(cards[i].offsetLeft);
+                console.log("mouseUp  ID = "+cardId);
+                console.log("移动后当前card的位置："+cards[i].offsetLeft,cards[i].offsetTop);
+
+            }
+        }
+        var i;
+        for(i=0;i<cards.length;i++){
+            cards[i].addEventListener('mousedown',helper(i));
+            cards[i].addEventListener('mousemove',moveHelper(i));
+            cards[i].addEventListener('mouseup',upHelper(i));
+            //document.onmousemove = moveHelper(i);
+            //document.onmouseup = upHelper(i);
+
+        }
+    }
+    handlers(cards);
+    var pos = function(x){
+        var spanWidth = document.getElementById("cardBox").offsetWidth;
+        console.log(spanWidth);
+        return Math.floor(x/spanWidth) + 1;
+    }
+</script> -->
+<!--
+<script src="js/lane.js" type="text/javascript"></script>
+-->
+
+</html>

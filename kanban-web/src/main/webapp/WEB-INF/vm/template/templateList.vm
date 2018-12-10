@@ -1,0 +1,41 @@
+<!--展示模板列表以及修改模板的content-->
+<div class="tab-pane" id="modelList">
+    <table class="table table-bordered offset1 span6">
+        <thead><tr><th width="20%">模板名称</th><th width="25%">操作</th></tr></thead>
+        <tbody>
+        #foreach($item in $templateList)
+        <tr id="template_$!{item.id}"><td>$!{item.name}</td>
+            <td>[<a href="/template/attr?templateId=${item.id}" target="_blank">编辑</a>]
+                [<a onclick="dele(${item.id})">删除</a>]</td>
+        </tr>
+        #end
+        </tbody>
+    </table><a href="/template/add?spaceId=$!{spaceId}">
+    <div class="span7 add-border border-top text-center" id="addCardTemplateBtn">
+        <i class="icon-plus"></i></div> </a>
+</div>
+
+<script>
+    function dele(templateId){
+        var choice=confirm("确认要删除吗？", function() { }, null);
+        if (!choice){
+            return;
+        }
+
+        var url = '/template/del';
+        var formData = "id="+templateId;
+        $.ajax({
+            url: url,
+            data: formData,
+            type: 'POST'
+        }).done(function (data) {
+            if ("SUCCESS" == data){
+                $("#template_"+templateId).remove();
+            }else if ("EXIST" == data){
+                alert("还有卡片使用该模板，不能删除！");
+            }else{
+                alert("删除失败！");
+            }
+        });
+    }
+</script>

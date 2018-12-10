@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CardAttrInstanceMapper">
+  <resultMap id="BaseResultMap" type="com.wednesday.kanban.domain.CardAttrInstance">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="card_id" jdbcType="BIGINT" property="cardId" />
+    <result column="space_id" jdbcType="BIGINT" property="spaceId" />
+    <result column="template_id" jdbcType="BIGINT" property="templateId" />
+    <result column="card_type" jdbcType="TINYINT" property="cardType" />
+    <result column="attr_id" jdbcType="BIGINT" property="attrId" />
+    <result column="attr_value" jdbcType="VARCHAR" property="attrValue" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+
+    <sql id="Base_Column_List">
+        id, card_id, space_id, card_type, attr_id, attr_value, creator, create_time, modifier,
+        modify_time
+    </sql>
+
+    <select id="findAttrById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from card_attr_instance
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="findAttrByCardId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from card_attr_instance
+        where card_id = #{cardId,jdbcType=BIGINT}
+    </select>
+
+    <!--根据卡片ID批量查询自定义属性值-->
+    <select id="batchFindAttrByCardId" parameterType="java.util.List" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from card_attr_instance
+        where card_id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+    </select>
+
+    <!--获取空间下该模板所有属性值-->
+    <select id="findSpaceAllValue" parameterType="com.wednesday.kanban.common.param.CardAttrQueryParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from card_attr_instance
+        where space_id = #{spaceId,jdbcType=BIGINT}  and status = 1
+        <if test="templateId != null">
+            and template_id = #{templateId,jdbcType=BIGINT}
+        </if>
+        <if test="cardAttrList != null">
+            and attr_id in
+            <foreach item="item" index="index" collection="cardAttrList" open="(" separator="," close=")">
+                #{item.attrId,jdbcType=BIGINT}
+            </foreach>
+        </if>
+    </select>
+
+    <!--TODO 修改查询参数-->
+    <sql id="Conditions">
+        where space_id = #{spaceId,jdbcType=BIGINT} and template_id = #{templateId,jdbcType=BIGINT} and status = 1
+        <foreach collection="cardAttrList" item="item">
+            and attr_id = #{item.attrId,jdbcType=BIGINT} and attr_value = #{item.attrValue,jdbcType=VARCHAR}
+        </foreach>
+    </sql>
+
+    <select id="findAttrByPage" parameterType="com.wednesday.kanban.common.param.CardAttrQueryParam" resultType="java.lang.Long">
+        select
+        distinct card_id
+        from card_attr_instance
+        <include refid="Conditions" />
+        ORDER BY card_id DESC
+        limit
+        #{startIdx,jdbcType=INTEGER},
+        #{pageSize,jdbcType=INTEGER}
+    </select>
+    <select id="findAttrByPage-count" parameterType="java.util.List" resultType="java.lang.Integer">
+        select
+        count(distinct card_id)
+        from card_attr_instance
+        <include refid="Conditions" />
+    </select>
+
+<!--  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from card_attr_instance
+    where id = #{id,jdbcType=BIGINT}
+  </delete>-->
+
+    <insert id="addCardAttrInstance" parameterType="com.wednesday.kanban.domain.CardAttrInstance">
+        insert into card_attr_instance (card_id, space_id, template_id,
+        card_type, attr_id, attr_value,
+        creator, create_time, modifier,
+        modify_time)
+        values (#{cardId,jdbcType=BIGINT}, #{spaceId,jdbcType=BIGINT}, #{templateId,jdbcType=BIGINT},
+        #{cardType,jdbcType=TINYINT}, #{attrId,jdbcType=BIGINT}, #{attrValue,jdbcType=VARCHAR},
+        #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR},
+        #{modifyTime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <!--批量添加自定义属性-->
+    <insert id="batchAddCardAttr" parameterType="java.util.List" >
+        insert into card_attr_instance (card_id, space_id, template_id,
+        card_type, attr_id, attr_value,
+        creator, create_time, modifier,
+        modify_time)
+        values
+        <foreach item="item" index="index" collection="list" open="" separator="," close="">
+            (#{item.cardId,jdbcType=BIGINT}, #{item.spaceId,jdbcType=BIGINT}, #{item.templateId,jdbcType=BIGINT},
+            #{item.cardType,jdbcType=TINYINT}, #{item.attrId,jdbcType=BIGINT}, #{item.attrValue,jdbcType=VARCHAR},
+            #{item.creator,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.modifier,jdbcType=VARCHAR},
+            #{item.modifyTime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+  <update id="modifyCardAttrInstance" parameterType="com.wednesday.kanban.domain.CardAttrInstance">
+    update card_attr_instance
+    <set>
+      <if test="spaceId != null">
+        space_id = #{spaceId,jdbcType=BIGINT},
+      </if>
+      <if test="templateId != null">
+          template_id = #{templateId,jdbcType=BIGINT},
+      </if>
+      <if test="cardType != null">
+        card_type = #{cardType,jdbcType=TINYINT},
+      </if>
+      <if test="attrId != null">
+        attr_id = #{attrId,jdbcType=BIGINT},
+      </if>
+      <if test="attrValue != null">
+        attr_value = #{attrValue,jdbcType=VARCHAR},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

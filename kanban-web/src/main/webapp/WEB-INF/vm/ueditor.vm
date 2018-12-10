@@ -1,0 +1,64 @@
+
+<script id="editor" type="text/plain"><p>mkml2015-02-07sfsfd&nbsp;17:05:25sdf&nbsp;<strong>asdadsasdad</strong></p></script>
+
+
+<div>
+    <input type="button" value="提交" onclick="getContent()">
+</div>
+
+<script type="text/javascript">
+/*    UE.getEditor('editor',{
+        initialFrameWidth : 800,
+        initialFrameHeight: 400,
+        method:"POST",
+        //serverUrl: '/server/ueditor/controller.php'
+    });*/
+
+var editor_a = new baidu.editor.ui.Editor();
+editor_a.render( 'editor' ); //此处的参数值为编辑器的id值
+
+    function getContent() {
+        var data = UE.getEditor('editor').getContent();
+        var url = 'space/getTree.htm';
+        var form = "data="+data;
+        requst(url,form);
+    }
+
+    function requst(url,formData){
+        $.ajax({
+            url: url,
+            data:formData,
+            type: 'POST'
+        }).done(function(data) {
+            alert(data);
+            /*var result = JSON.parse(data);
+            var tipType = "error";
+            var msg = result.message;
+            if(result && result.success) {
+                tipType = "success";
+            }
+            showResult(msg,tipType);*/
+
+        });
+    }
+
+    /*
+        function showResult(msg,type){
+            alert(msg);
+            var detail_url = 'index.htm' ;
+            var tipType = type ? type : "warning";
+            $.omMessageBox.alert({
+                type:tipType,
+                content:msg,
+                onClose:function(v){
+                    //仅当成功的时候加载到详情页面
+                    if(type === "success"){
+                        location.href = detail_url;
+                    }
+                }
+            });
+        }
+    */
+
+
+</script>

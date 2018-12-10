@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TemplateAttrSortMapper">
+  <resultMap id="BaseResultMap" type="com.wednesday.kanban.domain.TemplateAttrSort">
+
+    <id column="template_id" property="templateId" jdbcType="BIGINT" />
+    <!--<result column="template_id" jdbcType="BIGINT" property="templateId" />-->
+    <result column="template_attr_sort" jdbcType="VARCHAR" property="templateAttrSort" />
+    <!--<result column="status" jdbcType="VARCHAR" property="status" />-->
+  </resultMap>
+
+  <sql id="Base_Column_List">
+     template_id,template_attr_sort
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from template_attr_sort
+    where template_id = #{templateId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByTempleteId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from template_attr_sort
+    where template_id = #{templateId,jdbcType=BIGINT}
+    and status=1
+  </select>
+
+  <update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update  template_attr_sort
+    set status=0
+    where template_id = #{templateId,jdbcType=BIGINT}
+  </update>
+
+
+  <insert id="insert" parameterType="com.wednesday.kanban.domain.TemplateAttrSort">
+    insert into template_attr_sort (template_id,template_attr_sort)
+    values (#{templateId,jdbcType=BIGINT}, #{templateAttrSort,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.wednesday.kanban.domain.TemplateAttrSort">
+    update template_attr_sort
+    set
+        template_attr_sort = #{templateAttrSort,jdbcType=VARCHAR}
+    where template_id = #{templateId,jdbcType=BIGINT}
+  </update>
+
+</mapper>

@@ -1,0 +1,59 @@
+#set($layout="inc\emptyLayout.vm")
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>$!{spaceName}上线时间轴</title>
+    <link href="/assert/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div class="content">
+<div class="wrapper">
+<div class="light"><i></i></div>
+<hr class="line-left">
+<hr class="line-right">
+<div class="main">
+<h1 class="title">$!{spaceName}上线时间轴</h1>
+
+#foreach($cardListInfo in $cardListMap.entrySet())
+<div class="year">
+     <h2><a href="#">迭代$cardListInfo.key <i></i></a></h2>
+     <div class="list">
+        <ul>
+            #foreach($endLifeInfo in $cardListInfo.value.entrySet() )
+                <li class="cls "> #*highlight*#
+                    <p class="date">$endLifeInfo.key</p>
+                    <p class="intro">上线内容</p>
+                    <p class="version">&nbsp;</p>
+                    <div class="more">
+                        #foreach($card in $endLifeInfo.value )
+                            <p>$!card.cardTitle <a href="/card/viewCard.htm?cardId=$!card.id">GOTO</a></p>
+                        #end
+                    </div>
+                </li>
+            #end
+        </ul>
+     </div>
+</div>
+#end
+
+</div>
+</div>
+</div>
+
+<script src="/assert/js/jquery-1.7.2.min.js"></script>
+<script src="/assert/js/jquery.form.js"></script>
+<script src="/assert/js/jquery.cookie.js" type="text/javascript"></script>
+<script>
+    $(".main .year .list").each(function (e, target) {
+        var $target=  $(target),
+            $ul = $target.find("ul");
+        $target.height($ul.outerHeight()), $ul.css("position", "absolute");
+    });
+    $(".main .year>h2>a").click(function (e) {
+        e.preventDefault();
+        $(this).parents(".year").toggleClass("close");
+    });
+</script>
+</body>

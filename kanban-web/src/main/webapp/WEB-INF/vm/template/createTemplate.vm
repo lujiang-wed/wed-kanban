@@ -1,0 +1,42 @@
+<!--创建模板的content-->
+<div class="tab-pane" id="createModel">
+    <div class="span8">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label">模板名称：</label>
+                <label class="control-label">story</label>
+
+                <table class="table table-bordered" id="templeteTable">
+                    <thead><tr><th width="18%">属性名称</th><th width="20%">类型</th><th width="20%">默认值</th><th width="20%">选项</th><th width="22%">操作</th></tr></thead>
+                    <tbody contenteditable="true">
+                    <tr>
+                        <td>迭代</td>
+                        <td>单行文本</td>
+                        <td>张三</td>
+                        <td>张三:李四</td>
+                        <td><input class="btn" value="保存" type="button" onclick="saveTem(this)">
+                            <input class="btn" value="删除" type="button" onclick="deleteTem(this)"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+    <div class="span3">
+        <p>模板控件</p>
+        <div class="alert alert-info">
+            <button type="button" class="dialog-close" data-dismiss="alert">&times;</button>
+            <strong>提示! </strong><br>请根据需要任意选择下列中的模板控件，添加到您创建的空间模板中。
+        </div>
+        <div class="text-center" id="customedBox">
+            <div class="add-border" id="select" name="下拉框">下拉框</div>
+            <div class="add-border" id="checkBox" name="复选按钮">复选按钮：checkBox</div>
+            <div class="add-border" id="radioBox" name="单选按钮">单选按钮：radioBox</div>
+            <div class="add-border" id="richText" name="富文本">富文本编辑：Ueditor</div>
+            <div class="add-border" id="singleText" name="单行文本">单行文本</div>
+            <div class="add-border" id="textarea" name="多行文本">多行文本</div>
+            <div class="add-border" id="number" name="数字">数字</div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserInstanceMapper">
+  <resultMap id="BaseResultMap" type="com.wednesday.kanban.domain.UserInstance">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_type" jdbcType="TINYINT" property="userType" />
+      <result column="permissions" jdbcType="VARCHAR" property="permissions" />
+      <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, user_name, user_pwd, user_type,
+        creator, create_time, modifier, modify_time,permissions
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where id = #{Id,jdbcType=BIGINT}
+    </select>
+
+    <select id="findByUser" parameterType="com.wednesday.kanban.common.param.UserParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where user_id = #{userId,jdbcType=VARCHAR}
+        and user_pwd = #{userPwd,jdbcType=VARCHAR}
+        and status = 1
+    </select>
+
+    <select id="findByPage" parameterType="com.wednesday.kanban.common.param.UserParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where status = 1
+        <if test="userType != null">
+            and user_type = #{userType,jdbcType=TINYINT}
+        </if>
+
+        ORDER BY create_time DESC
+        limit
+        #{startIdx,jdbcType=INTEGER},
+        #{pageSize,jdbcType=INTEGER}
+    </select>
+    <select id="findByPage-count" parameterType="com.wednesday.kanban.common.param.UserParam" resultType="java.lang.Integer">
+        select
+        count(*)
+        from user
+        where status = 1
+        <if test="userType != null">
+            and user_type = #{userType,jdbcType=TINYINT}
+        </if>
+    </select>
+
+    <update id="deleteUser" parameterType="java.lang.Long">
+        update user
+        set status = 0
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updatePwd" parameterType="com.wednesday.kanban.common.param.UserParam">
+        update user
+        set user_pwd = #{userPwd,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+        and user_pwd=#{oldPwd,jdbcType=VARCHAR}
+    </update>
+
+    <insert id="addUser" parameterType="com.wednesday.kanban.common.param.UserParam" useGeneratedKeys="true" keyProperty="id">
+        insert into user (user_id, user_name, user_pwd, user_type,
+        creator, create_time, modifier, modify_time
+        )
+        values (#{userId,jdbcType=VARCHAR},
+        #{userName,jdbcType=VARCHAR},
+        #{userPwd,jdbcType=VARCHAR},
+        #{userType,jdbcType=TINYINT},
+        #{creator,jdbcType=VARCHAR},
+        CURRENT_TIMESTAMP(),
+        #{modifier,jdbcType=VARCHAR},
+        CURRENT_TIMESTAMP()
+        )
+    </insert>
+
+    <update id="modifyUser" parameterType="com.wednesday.kanban.common.param.UserParam">
+        update user
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPwd != null">
+                user_pwd = #{userPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=TINYINT},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>

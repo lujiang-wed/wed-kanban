@@ -1,0 +1,7 @@
+<div class="alert">
+    <form action="/uploadFile.html" enctype="multipart/form-data" method="post">
+        文件名：<input type="file" name="filePath">
+        文件介绍：<input type="text" name="test">
+        <input type="submit" value="提交">
+    </form>
+</div>

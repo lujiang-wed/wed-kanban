@@ -1,0 +1,36 @@
+<div class="tab-pane active" id="detail">
+    <form class="form-horizontal"  name="spaceDetail" >
+        <div class="control-group" style="display: none">
+            <label class="control-label">空间id：</label>
+            <div class="controls"><input class="input-xxlarge" type="text" id="spaceId" value="$!{spaceId}"></div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">空间名称：</label>
+            <div class="controls"><input class="input-xxlarge" type="text" id="spaceName" value="$!{spaceName}"></div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">空间唯一标识：</label>
+            <div class="controls"><input class="input-xxlarge" type="text" id="spacePin" value="$!{spacePin}"></div>
+        </div>
+        <div class="control-group" style="display: none">
+            <label class="control-label">父空间id：</label>
+            <div class="controls"><input class="input-xxlarge" type="text" id="parentSpaceId" value="$!{parentSpace}"></div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">父空间标识：</label>
+            <div class="controls"><input  class="input-xxlarge" type="text" id="parentSpacePin" value="$!{parentSpacePin}" readonly="true"></div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">描述：</label>
+            <div class="controls"><textarea rows="5" class="input-xxlarge" type="text" id="spaceDes" >$!{spaceDesc}</textarea></div>
+        </div>
+        <div class="text-center">
+            <div class="alert" id="alertTextModify" style="display: none">
+                <input type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+            <input type="button" class="btn btn-primary" id="saveBtn" value="保 存" onclick="alterSpace()"></button>
+        ##                <input type="button" class="btn btn-primary" id="deleteBtn" value="删 除"></button>
+        </div>
+    </form>
+</div>
+

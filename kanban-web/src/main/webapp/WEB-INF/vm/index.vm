@@ -1,0 +1,20 @@
+<div class="alert">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>Warning!</strong> Best check yo self, you're not looking too good.
+</div>
+<div class="pull-left"  >
+    <table class="table">
+
+        #foreach($item in $parentAttrList)
+            <tr><td>${item.attrLabel}</td><td>
+                #parse("inc/templete/${item.inputType}.vm")
+            </td></tr>
+        #end
+
+        #foreach($item in $attrList)
+            <tr><td>${item.attrLabel}</td><td>
+                #parse("inc/templete/${item.inputType}.vm")
+            </td></tr>
+        #end
+    </table>
+</div>

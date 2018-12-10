@@ -1,0 +1,168 @@
+<div class="span3">
+    <ul class="nav nav-list sidenav">
+        <li><a href="/space/add" id="createSpace">创建空间</a></li>
+        <li id="spaceMenu"><a id="spaceList"><b>空间列表</b>
+            <i class="icon-chevron-right" id="rootSign"></i>
+        </a></li>
+    </ul>
+</div>
+
+<input type="hidden" id="launchId" value="$!{launchId}">
+
+<script type="text/javascript">
+
+    /*    $("#spaceList").click(function(){
+            alert("Test");
+        })*/
+
+
+    $("#spaceList").click(function(){
+        $(".second-list").slideToggle("slow",function(){
+            var iClass = $("#spaceList i").attr("class").toString();
+            //console.log(iClass);
+            changeSign(iClass,$("#spaceList i"));
+        });
+    })
+
+    function recoverySign(sel){
+        sel.removeClass("icon-chevron-down");
+        sel.addClass("icon-chevron-right");
+    }
+
+    function changeSign(iClass,sel){
+        if(iClass == "icon-chevron-right"){
+            sel.removeClass("icon-chevron-right");
+            sel.addClass("icon-chevron-down");
+        }else{
+            sel.removeClass("icon-chevron-down");
+            sel.addClass("icon-chevron-right");
+        }
+    }
+    var curWwwPath=window.document.location.href;
+    var pathName=window.document.location.pathname;
+    var pos=curWwwPath.indexOf(pathName);
+    //获取主机地址，如： http://localhost:8083
+    var localhostPaht=curWwwPath.substring(0,pos);
+
+    var url = localhostPaht+'/space/getTree.htm';
+    var form = "rootId=-1";
+    $(document).ready(function () {
+
+        requst(url, form);
+    });
+
+
+    function requst(url, formData) {
+        $.ajax({
+            url: url,
+            data: formData,
+            type: 'POST'
+        }).done(function (data) {
+            var tree = eval("(" + data + ")");
+            console.log(tree);
+            var ul = document.createElement("ul");
+            ul.className = "nav nav-list second-list hide";
+            createTree(tree, -1, ul);
+            document.getElementById('spaceMenu').appendChild(ul);
+
+            $(".mySpaceNode").click(function(){
+                var myParentId;
+                if (undefined == this.parentNode.parentNode.parentNode.id || "" == this.parentNode.parentNode.parentNode.id){
+                    myParentId = 0;
+                }else{
+                    myParentId = this.parentNode.parentNode.parentNode.id;
+                }
+
+                location.href = localhostPaht+'/space/showSpace.htm?spaceId='+this.id
+                        +"&launchId="+myParentId;
+            })
+
+            var objs = $("i[id^=list]");
+            //document.getElementById('spaceMenu').innerHTML
+            for (var i=0;i<objs.length;i++){
+                $("#list"+i).click(function(){
+                    hiddenAll();
+                    changeSign($("#"+this.id).attr("class"),$("#"+this.id));
+                    $("#th-"+this.id).toggle("slow");
+                })
+            }
+
+            function hiddenAll(){
+                //var thobjs = $("ul[id^=th-list]");
+
+                for (var i=0 ;i<objs.length;i++){
+                    $("#th-"+objs[i].id).hide("slow");
+                    recoverySign($("#"+objs[i].id));
+                }
+
+            }
+
+            var launchId = $("#launchId").val();
+
+            if (undefined != launchId){
+                $(".second-list").slideToggle("fast",function(){
+                    var iClass = $("#spaceList i").attr("class").toString();
+                    //console.log(iClass);
+                    changeSign(iClass,$("#spaceList i"));
+                });
+                if (launchId.indexOf("th-") != -1){
+                    changeSign($("#"+launchId.substring(3)).attr("class"),$("#"+launchId.substring(3)));
+                    $("#"+launchId).toggle("fast");;
+                }
+            }
+
+        });
+    }
+
+    /*修改时，最好给所有的json树来一个 -1 的root节点
+    *
+    * */
+    function createTree(tree, level, sub) {
+        if (tree.childList == undefined || tree.childList.length == 0) {
+            return;
+        }
+
+        if (tree.childList.length > 0 && level >-1) {
+            var thirdUl = document.createElement("ul");
+            thirdUl.className = "nav nav-list third-list hide";
+            thirdUl.id = "th-" + sub.firstChild.lastChild.id;
+            sub.appendChild(thirdUl);
+            sub = thirdUl;
+        }
+
+        for (var index = 0; index < tree.childList.length; index++) {
+
+            var li = document.createElement("li");
+            var a = document.createElement("a");
+
+            //a.href = "/space/showSpace.html?spaceId="+tree.childList[index].spaceId;
+            //tree.childList[i].privilege
+            //a.innerHTML = tree.childList[index].spaceName;
+            var b = document.createElement("b");
+            b.id = tree.childList[index].spaceId;
+            b.className = "mySpaceNode";
+            b.innerHTML = tree.childList[index].spaceName;
+            a.appendChild(b);
+
+
+            //<i class="icon-chevron-right" id="rootSign"></i>
+
+            if (tree.childList[index].childList.length > 0){
+                var i = document.createElement("i");
+                i.className = "icon-chevron-right";
+                if (level == -1) {
+                    i.id = "list" + index;
+                } else {
+                    i.id = "chlidlist" + level + "-" + index;
+                }
+                a.appendChild(i);
+            }
+
+            li.appendChild(a);
+            sub.appendChild(li);
+
+            createTree(tree.childList[index], index , li);
+        }
+    }
+
+</script>

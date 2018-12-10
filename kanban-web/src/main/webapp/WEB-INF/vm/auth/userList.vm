@@ -1,0 +1,47 @@
+<div class="tab-pane" id="auth">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>用户ID</th>
+            <th>用户名</th>
+            <th>状态</th>
+            <th>权限</th>
+        </tr>
+        </thead>
+
+        <tbody id="spaceTable">
+            #foreach($data in $datas)
+                <tr>
+                    <th id="sid$!{data.id}">$!{data.userId}</th>
+                    <th id="user$!{data.id}">$!{data.userName}</th>
+                    <th >$!{data.status}</th>
+                    <th >$!{data.permissionDesc}</th>
+                    <th>
+                <a id="modifyButton$!{data.id}" onclick="#">修改</a>|<a onclick="delAuth('$!{data.id}')">删除</a>
+                    </th>
+                </tr>
+             #end
+        </tbody>
+        </table>
+</div>
+
+<script>
+
+    function delAuth(sid){
+        $.ajax({
+                url:"/user/del",
+                type:"POST",
+                data:{userId:sid},
+                success:function(data){
+                    //这里是执行程序之后的操作
+                    var json = eval(data);
+                    if(json.isSuccess) {
+                        alert("删除OK!") ;
+                    } else {
+                        alert("删除失败！") ;
+                    }
+                }
+            });
+    }
+
+</script>

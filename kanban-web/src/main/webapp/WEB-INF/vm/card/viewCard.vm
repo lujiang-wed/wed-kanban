@@ -1,0 +1,58 @@
+<tr>
+    <td>
+        类型
+    </td>
+    <td>
+        <p>
+            #if($cardType == 1)
+                Story
+            #elseif($cardType == 2)
+                Task
+            #elseif($cardType == 3)
+                Bug
+            #end
+        </p>
+    </td>
+</tr>
+<tr>
+    <td>
+        迭代
+    </td>
+    <td>
+        <p>$sprint</p>
+    </td>
+</tr>
+#*<tr>
+    <td>
+        上线时间
+    </td>
+    <td>
+        <p>$!endLife</p>
+    </td>
+</tr>*#
+#foreach($item in $templateAttrList)
+    #if(${item.getTemplateName()} != "richText" && ${item.getAttrLabel()} != "创建时间"&& ${item.getAttrLabel()} != "编号"&& ${item.getAttrLabel()} != "状态"&& ${item.getAttrLabel()} != "模板"&& ${item.getAttrLabel()} != "创建人"&& ${item.getAttrLabel()} != "标题"&& ${item.getAttrLabel()} != "类型"&& ${item.getAttrLabel()} != "迭代")
+        <tr>
+            <td style="width:10%">
+                ${item.attrLabel}
+            </td>
+            <td>
+                <p>$!{item.inputValue}</p>
+            </td>
+        </tr>
+
+    #elseif(${item.getTemplateName()} == "richText")
+        <tr>
+            <td colspan="2" style="text-align: center">
+                ${item.attrLabel}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div>
+                    <script id="editor-${item.id}" class="richTextTemplate" type="text/plain" name="${item.id}" style="width:100%;height:400px">$!{item.inputValue}</script>
+                </div>
+            </td>
+        </tr>
+    #end
+#end

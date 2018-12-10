@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+
+    <!-- 自动扫描且只扫描@Controller  use-default-filters="false" -->
+    <context:component-scan base-package="com.wednesday.kanban.web.Index.Controller" >
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <aop:aspectj-autoproxy />
+
+    <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+    <bean class="org.springframework.web.servlet.view.velocity.VelocityLayoutViewResolver">
+        <property name="suffix" value=".vm"/>
+        <property name="cache" value="false"/>
+        <property name="contentType" value="text/html;charset=UTF-8"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.velocity.VelocityLayoutView"/>
+        <property name="layoutUrl" value="inc/layout.vm"/>
+        <property name="attributesMap" ref="velocityTools"/>
+    </bean>
+
+    <bean id="refererViewResolver" class="com.wednesday.kanban.web.Index.Controller.view.RefererViewResolver"></bean>
+
+    <!-- velocity配置文件 -->
+    <bean id="velocityConfig" class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+        <property name="resourceLoaderPath">
+            <value>/WEB-INF/vm/</value>
+        </property>
+        <property name="configLocation" value="classpath:velocity.properties"/>
+    </bean>
+
+    <bean id="globalInterceptor" class="com.wednesday.kanban.web.Index.Controller.permission.listener.GlobalInterceptor"></bean>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean = "globalInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <mvc:resources mapping="/static/**" location="/assert/"/>
+
+    <!-- 上传组件 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+          p:defaultEncoding="utf-8" p:maxUploadSize="5242880" p:maxInMemorySize="4096"/>
+
+    <!-- 国际化消息资源 -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <!-- 前面的是包名，messages是配置文件的前缀 -->
+        <property name="basenames">
+            <array>
+                <!--<value>i18n.member</value>-->
+            </array>
+        </property>
+    </bean>
+</beans>
+

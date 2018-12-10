@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SpaceMapper">
+  <resultMap id="BaseResultMap" type="com.wednesday.kanban.domain.Space">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="space_name" jdbcType="VARCHAR" property="spaceName" />
+    <result column="space_pin" jdbcType="VARCHAR" property="spacePin" />
+    <result column="space_desc" jdbcType="VARCHAR" property="spaceDesc" />
+    <result column="encrypt" jdbcType="TINYINT" property="encrypt" />
+    <result column="production" jdbcType="VARCHAR" property="production" />
+    <result column="organization" jdbcType="VARCHAR" property="organization" />
+    <result column="life_def" jdbcType="VARCHAR" property="lifeDef" />
+    <result column="parent_space" jdbcType="BIGINT" property="parentSpace" />
+    <result column="root_space" jdbcType="BIGINT" property="rootSpace" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, space_name, space_pin, space_desc, encrypt, production, organization, life_def, 
+    parent_space, root_space, creator, create_time, modifier, modify_time
+  </sql>
+  <select id="findOne" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from space
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="findSonSpace" parameterType="java.lang.Long" resultType="java.lang.Long">
+      select id
+      from space
+      where parent_space = #{parentSpace,jdbcType=BIGINT}
+  </select>
+
+  <sql id="Conditions">
+      where status = 1
+      <if test="spaceName != null">
+          and space_name = #{spaceName,jdbcType=VARCHAR}
+      </if>
+      <if test="spacePin != null">
+          and space_pin = #{spacePin,jdbcType=VARCHAR}
+      </if>
+      <if test="spaceDesc != null">
+          and space_desc = #{spaceDesc,jdbcType=VARCHAR}
+      </if>
+      <if test="encrypt != null">
+          and encrypt = #{encrypt,jdbcType=Integer}
+      </if>
+      <if test="production != null">
+          and production = #{production,jdbcType=VARCHAR}
+      </if>
+      <if test="organization != null">
+          and organization = #{organization,jdbcType=VARCHAR}
+      </if>
+      <if test="lifeDef != null">
+          and life_def = #{lifeDef,jdbcType=VARCHAR}
+      </if>
+      <if test="parentSpace != null">
+          and parent_space = #{parentSpace,jdbcType=BIGINT}
+      </if>
+      <if test="rootSpace != null">
+          and root_space = #{rootSpace,jdbcType=BIGINT}
+      </if>
+      <if test="creator != null">
+          and creator = #{creator,jdbcType=VARCHAR}
+      </if>
+      <if test="modifier != null">
+          and modifier = #{modifier,jdbcType=VARCHAR}
+      </if>
+      <if test="queryCreateBegin != null">
+          and create_time <![CDATA[>=]]> #{queryCreateBegin,jdbcType=TIMESTAMP}
+      </if>
+      <if test="queryCreateEnd != null">
+          and create_time <![CDATA[<=]]> #{queryCreateEnd,jdbcType=TIMESTAMP}
+      </if>
+      <if test="queryModifyBegin != null">
+          and modify_time <![CDATA[>=]]> #{queryModifyBegin,jdbcType=TIMESTAMP}
+      </if>
+      <if test="queryModifyEnd != null">
+          and modify_time <![CDATA[<=]]> #{queryModifyEnd,jdbcType=TIMESTAMP}
+      </if>
+  </sql>
+
+  <select id="findByPage" parameterType="com.wednesday.kanban.common.param.SpaceQueryParam" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from space
+      <include refid="Conditions" />
+      order by create_time
+      limit
+      #{startIdx,jdbcType=INTEGER},
+      #{pageSize,jdbcType=INTEGER}
+  </select>
+    <select id="findByPage-count" parameterType="com.wednesday.kanban.common.param.SpaceQueryParam" resultType="java.lang.Integer">
+        select
+        count(*)
+        from space
+        <include refid="Conditions" />
+    </select>
+
+    <update id="deleteSpace" parameterType="java.lang.Long">
+        update  space
+        set status = 0
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+  <insert id="addSpace" parameterType="com.wednesday.kanban.domain.Space" useGeneratedKeys="true" keyProperty="id">
+    insert into space
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="spaceName != null">
+        space_name,
+      </if>
+      <if test="spacePin != null">
+        space_pin,
+      </if>
+      <if test="spaceDesc != null">
+        space_desc,
+      </if>
+      <if test="encrypt != null">
+        encrypt,
+      </if>
+      <if test="production != null">
+        production,
+      </if>
+      <if test="organization != null">
+        organization,
+      </if>
+      <if test="lifeDef != null">
+        life_def,
+      </if>
+      <if test="parentSpace != null">
+        parent_space,
+      </if>
+      <if test="rootSpace != null">
+        root_space,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="spaceName != null">
+        #{spaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="spacePin != null">
+        #{spacePin,jdbcType=VARCHAR},
+      </if>
+      <if test="spaceDesc != null">
+        #{spaceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="encrypt != null">
+        #{encrypt,jdbcType=TINYINT},
+      </if>
+      <if test="production != null">
+        #{production,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null">
+        #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="lifeDef != null">
+        #{lifeDef,jdbcType=VARCHAR},
+      </if>
+      <if test="parentSpace != null">
+        #{parentSpace,jdbcType=BIGINT},
+      </if>
+      <if test="rootSpace != null">
+        #{rootSpace,jdbcType=BIGINT},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="modifySpace" parameterType="com.wednesday.kanban.domain.Space">
+    update space
+    <set>
+      <if test="spaceName != null">
+        space_name = #{spaceName,jdbcType=VARCHAR},
+      </if>
+      <if test="spacePin != null">
+        space_pin = #{spacePin,jdbcType=VARCHAR},
+      </if>
+      <if test="spaceDesc != null">
+        space_desc = #{spaceDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="encrypt != null">
+        encrypt = #{encrypt,jdbcType=TINYINT},
+      </if>
+      <if test="production != null">
+        production = #{production,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null">
+        organization = #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="lifeDef != null">
+        life_def = #{lifeDef,jdbcType=VARCHAR},
+      </if>
+      <if test="parentSpace != null">
+        parent_space = #{parentSpace,jdbcType=BIGINT},
+      </if>
+      <if test="rootSpace != null">
+        root_space = #{rootSpace,jdbcType=BIGINT},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+</mapper>

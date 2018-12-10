@@ -1,0 +1,41 @@
+<div class="span10">
+    <div class="span6">
+        <h2 id="headings">
+            添加或修改模版
+        </h2>
+    <form class="form-horizontal" action="/template/add" method="POST">
+        <div class="control-group">
+            <label class="control-label" for="name">模板名称</label>
+            <div class="controls">
+                <input type="text" id="name" placeholder="模版名称" name="name">
+                <input type="hidden" name="spaceId" value="$!{spaceId}">
+            </div>
+        </div>
+#*        <div class="control-group">
+            <label class="control-label" for="name">模板类型</label>
+            <div class="controls">
+                <select name="cardType">
+                    <option value="11">task</option>
+                    <option value="12">story</option>
+                </select>
+            </div>
+        </div>*#
+        <div class="control-group">
+            <label class="control-label" for="inputEmail">父模版</label>
+            <div class="controls">
+                <select name="parentTemplate">
+                    <option value="0">空</option>
+                    #foreach($item in $parentTemplateList)
+                        <option value="$!{item.id}">$!{item.name}</option>
+                    #end
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn">提交</button>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>

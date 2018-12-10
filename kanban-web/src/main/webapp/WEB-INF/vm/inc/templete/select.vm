@@ -1,0 +1,20 @@
+
+#if($item.inputValue)
+    #set($currentValue = $item.inputValue)
+#else
+    #set($currentValue = $item.defaultValue)
+#end
+
+<select name="${item.id}" class="templateAttr">
+    #foreach($value in $item.valueList)
+        #if($value == $currentValue)
+            <option selected="true" value="${value}">
+                ${value}
+            </option>
+        #else
+            <option value="${value}">
+                ${value}
+            </option>
+        #end
+   #end
+  </select>

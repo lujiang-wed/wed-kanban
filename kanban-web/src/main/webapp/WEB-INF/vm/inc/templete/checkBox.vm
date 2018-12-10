@@ -1,0 +1,25 @@
+
+
+    #if($item.inputValue)
+        #set($currentValueList = $item.inputValues)
+    #else
+        #set($currentValueList = $item.defaultCheckList)
+    #end
+
+    #foreach($value in $item.valueList)
+        #set($flag = 0)
+        <div class="btn-group">
+        <label class="checkbox">
+            #foreach($currentValue in $currentValueList)
+                #if($value == $currentValue)
+                    <input type="checkbox" name="${item.id}" class="templateAttr" value="${value}" checked> ${value}
+                    #set($flag = 1)
+                #end
+            #end
+
+            #if($flag == 0)
+                <input type="checkbox" name="${item.id}" class="templateAttr" value="${value}"> ${value}
+            #end
+        </label>
+        </div>
+   #end

@@ -1,0 +1,126 @@
+#set($layout="inc\emptyLayout.vm")
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>迭代统计</title>
+    <link href="/assert/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<div>
+    <select id="sprintSelect" onchange="typeChange()">
+    </select>
+    <select id="typeSelect" onchange="typeChange()">
+        <option value ="卡片状态" selected>卡片状态</option>
+        <option value ="卡片类型">卡片类型</option>
+        <option value ="新增需求">新增需求</option>
+        <option value ="RD用点">RD用点</option>
+        <option value ="QA用点">QA用点</option>
+        <option value ="RD估点">RD估点</option>
+        <option value ="QA估点">QA估点</option>
+    </select>
+</div>
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="height:600px"></div>
+<input type="hidden" id="sprint" value=$!sprint>
+<input type="hidden" id="spaceId" value=$!spaceId>
+<input type="hidden" id="sprintMax" value=$!sprintMax>
+<input type="hidden" id="spaceName" value=$!spaceName>
+
+<script src="/assert/js/jquery-1.7.2.min.js"></script>
+<script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>
+<script type="text/javascript">
+    var curWwwPath=window.document.location.href;
+    var pathName=window.document.location.pathname;
+    var pos=curWwwPath.indexOf(pathName);
+    var localhostPaht=curWwwPath.substring(0,pos);
+
+    var spaceId = $("#spaceId").val();
+    var sprint = $("#sprint").val();
+    var bench = $("#typeSelect").val();
+    var sprintMax = $("#sprintMax").val();
+    var spaceName = $("#spaceName").val();
+
+    var s;
+    for (s=0;s<=sprintMax;s++){
+        $("#sprintSelect").append("<option value="+s+">迭代"+s+"</option>");
+    }
+    $("#sprintSelect").val(sprint);
+
+    $.ajax({
+        url: localhostPaht + "/statistics/statisticalData.htm?spaceId="+spaceId+"&sprint="+sprint+"&bench="+bench,
+        type: 'POST'
+    }).done(function (data) {
+        var myDatas = JSON.parse(data);
+        obtainPie(myDatas,$("#typeSelect").val());
+    });
+
+    function typeChange(){
+        $.ajax({
+            url: localhostPaht + "/statistics/statisticalData.htm?spaceId="+spaceId+"&sprint="+$("#sprintSelect").val()+"&bench="+$("#typeSelect").val(),
+            type: 'POST'
+        }).done(function (data) {
+            console.log(data);
+            var myDatas = JSON.parse(data);
+            obtainPie(myDatas,$("#typeSelect").val());
+        });
+    }
+
+
+    function obtainPie(showDatas,type){
+        // 基于准备好的dom，初始化echarts图表
+        var myChart = echarts.init(document.getElementById('main'));
+        var subtext = spaceName+'迭代'+$("#sprintSelect").val();
+
+        var option = {
+            title : {
+                text: type+'统计',
+                subtext: subtext,
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)<br>"
+            },
+
+            toolbox: {
+                show : true,
+                feature : {
+                    mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {
+                        show: true,
+                        type: ['pie', 'funnel'],
+                        option: {
+                            funnel: {
+                                x: '25%',
+                                width: '50%',
+                                funnelAlign: 'left',
+                                max: 1548
+                            }
+                        }
+                    },
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            series : [
+                {
+                    name:'卡片状态',
+                    type:'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:showDatas
+                }
+            ]
+        };
+
+        // 为echarts对象加载数据
+        myChart.setOption(option);
+    }
+
+</script>
+</body>

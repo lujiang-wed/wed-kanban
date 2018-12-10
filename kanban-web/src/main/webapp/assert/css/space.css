@@ -1,0 +1,8 @@
+.modal1{
+    border-radius: 5px;
+    border: 2px dashed silver;
+    height: 26px;
+    padding-top: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}

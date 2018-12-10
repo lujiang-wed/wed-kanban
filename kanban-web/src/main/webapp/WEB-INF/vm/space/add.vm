@@ -1,0 +1,24 @@
+<form class="form-horizontal"  name="spaceDetail" >
+    <div class="control-group">
+        <label class="control-label">空间名称：</label>
+        <div class="controls"><input class="input-xxlarge" type="text" id="inputSpaceName" value=""></div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">空间唯一标识：</label>
+        <div class="controls"><input class="input-xxlarge" type="text" id="inputSpacePin" value=""></div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">父空间标识：</label>
+        <div class="controls"><input class="input-xxlarge" type="text" id="inputParentSpacePin" value=""></div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">描述：</label>
+        <div class="controls"><textarea rows="5" class="input-xxlarge" type="text" id="inputSpaceDes"></textarea></div>
+    </div>
+    <div class="text-center">
+        <div class="alert" id="alertText" style="display: none">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        <input class="btn btn-primary" value="创 建" onclick="addNewSpace()">
+    </div>
+</form>

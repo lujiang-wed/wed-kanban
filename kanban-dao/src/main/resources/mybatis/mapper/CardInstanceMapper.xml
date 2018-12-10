@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CardInstanceMapper">
+  <resultMap id="BaseResultMap" type="com.wednesday.kanban.domain.CardInstance">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="space_id" jdbcType="BIGINT" property="spaceId" />
+    <result column="card_type" jdbcType="TINYINT" property="cardType" />
+    <result column="card_title" jdbcType="VARCHAR" property="cardTitle" />
+      <!--新加入行-->
+      <!--<result column="input_option" jdbcType="VARCHAR" property="inputOption" />-->
+    <result column="template_id" jdbcType="BIGINT" property="templateId" />
+    <result column="card_desc" jdbcType="VARCHAR" property="cardDesc" />
+    <result column="sprint" jdbcType="INTEGER" property="sprint" />
+    <result column="life_status" jdbcType="VARCHAR" property="lifeStatus" />
+    <result column="end_life" jdbcType="VARCHAR" property="endLife" />
+    <result column="attr_values" jdbcType="VARCHAR" property="attrValues" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+
+    <!--统计结果-->
+    <resultMap id="StatisticsResultMap" type="com.wednesday.kanban.common.result.StatisticsResult">
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="value" jdbcType="INTEGER" property="value" />
+    </resultMap>
+
+<!--加入了input_option字段-->
+    <sql id="Base_Column_List">
+        id, space_id, card_type, card_title,template_id ,card_desc, sprint, life_status, end_life, attr_values,
+        creator, create_time, modifier, modify_time
+    </sql>
+
+    <select id="statisticsCompleteCard" parameterType="com.wednesday.kanban.common.param.CardParam" resultMap="BaseResultMap">
+        select
+        a.id, a.space_id, a.card_type, a.card_title,a.template_id ,a.card_desc, a.sprint, a.life_status, b.attr_value as end_life ,
+        a.attr_values,a.creator, a.create_time, a.modifier, a.modify_time
+        from card_instance a,card_attr_instance b
+        where a.space_id = #{spaceId,jdbcType=BIGINT} and a.status = 1 and a.life_status='已上线'
+        and a.id = b.card_id and b.attr_id=64 /*直接获取的预计上线时间ID对应的属性ID*/
+        <if test="sprint != null">
+            and a.sprint = #{sprint,jdbcType=INTEGER}
+        </if>
+        ORDER BY a.sprint DESC,b.attr_value DESC
+
+    </select>
+    <select id="statisticsCompleteCard-count" parameterType="com.wednesday.kanban.common.param.CardParam" resultType="java.lang.Integer">
+        select
+        count(*)
+        from card_instance a,card_attr_instance b
+        where a.space_id = #{spaceId,jdbcType=BIGINT} and a.status = 1 and a.life_status='已上线'
+        and a.id = b.card_id and b.attr_id=64 /*直接获取的预计上线时间ID对应的属性ID*/
+        <if test="sprint != null">
+            and a.sprint = #{sprint,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <!--获取同一空间下最大的迭代编号-->
+    <select id="findSpaceMaxSprint" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        SELECT MAX(sprint) from card_instance where space_id=#{spaceId,jdbcType=BIGINT}
+    </select>
+
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from card_instance
+        where id = #{Id,jdbcType=BIGINT}
+    </select>
+
+    <select id="findByPage" parameterType="com.wednesday.kanban.common.param.CardParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from card_instance
+        where status = 1
+        <if test="spaceId != null">
+            and space_id = #{spaceId,jdbcType=BIGINT}
+        </if>
+        <if test="templateId != null">
+            and template_id = #{templateId,jdbcType=BIGINT}
+        </if>
+        <if test="sprint != null">
+            and sprint = #{sprint,jdbcType=INTEGER}
+        </if>
+        <if test="cardType != null">
+            and card_type = #{cardType,jdbcType=INTEGER}
+        </if>
+
+        ORDER BY create_time DESC
+        limit
+        #{startIdx,jdbcType=INTEGER},
+        #{pageSize,jdbcType=INTEGER}
+    </select>
+    <select id="findByPage-count" parameterType="com.wednesday.kanban.common.param.CardParam" resultType="java.lang.Integer">
+        select
+        count(*)
+        from card_instance
+        where status = 1
+        <if test="spaceId != null">
+            and space_id = #{spaceId,jdbcType=BIGINT}
+        </if>
+        <if test="templateId != null">
+            and template_id = #{templateId,jdbcType=BIGINT}
+        </if>
+        <if test="sprint != null">
+            and sprint = #{sprint,jdbcType=INTEGER}
+        </if>
+        <if test="cardType != null">
+            and card_type = #{cardType,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <!--根据状态进行统计-->
+    <select id="statisticsLifeStatus" parameterType="com.wednesday.kanban.common.param.CardParam" resultMap="StatisticsResultMap">
+        SELECT
+        life_status as name ,count(life_status) as value
+        from card_instance
+        where sprint=#{sprint,jdbcType=INTEGER} and space_id=#{spaceId,jdbcType=BIGINT} and status=1
+        GROUP BY life_status
+    </select>
+    
+
+    <update id="deleteCardInstance" parameterType="java.lang.Long">
+        update card_instance
+        set status = 0
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="addCardInstance" parameterType="com.wednesday.kanban.domain.CardInstance" useGeneratedKeys="true" keyProperty="id">
+        insert into card_instance (space_id, card_type,
+        card_title, template_id ,card_desc, life_status,
+        end_life, attr_values, creator,
+        create_time, modifier, modify_time
+        )
+        values (#{spaceId,jdbcType=BIGINT}, #{cardType,jdbcType=TINYINT},
+        #{cardTitle,jdbcType=VARCHAR}, #{templateId,jdbcType=BIGINT}, #{cardDesc,jdbcType=VARCHAR}, #{lifeStatus,jdbcType=VARCHAR},
+        #{endLife,jdbcType=VARCHAR}, #{attrValues,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!--复制卡片基本信息到 指定sprint-->
+    <insert id="copyCardInstance" parameterType="com.wednesday.kanban.common.param.CopyCardParam" useGeneratedKeys="true" keyProperty="id">
+        insert into card_instance (space_id, card_type,card_title,
+        template_id ,card_desc,sprint,
+        life_status,end_life, attr_values, creator,
+        create_time, modifier, modify_time)
+        SELECT space_id, card_type,card_title,
+        template_id ,card_desc, #{sprint,jdbcType=INTEGER} ,
+        life_status,end_life, attr_values, creator,
+        NOW(), modifier, NOW()
+        from card_instance
+        where id = #{beCopyCardId,jdbcType=BIGINT}
+    </insert>
+
+
+    <update id="modifyCardInstance" parameterType="com.wednesday.kanban.domain.CardInstance">
+        update card_instance
+        <set>
+            <if test="cardType != null">
+                card_type = #{cardType,jdbcType=TINYINT},
+            </if>
+            <if test="cardTitle != null">
+                card_title = #{cardTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="cardDesc != null">
+                card_desc = #{cardDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="sprint != null">
+                sprint = #{sprint,jdbcType=INTEGER},
+            </if>
+            <if test="lifeStatus != null">
+                life_status = #{lifeStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="endLife != null">
+                end_life = #{endLife,jdbcType=VARCHAR},
+            </if>
+            <if test="attrValues != null">
+                attr_values = #{attrValues,jdbcType=VARCHAR},
+            </if>
+            <if test="modifier != null">
+                modifier = #{modifier,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>

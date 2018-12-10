@@ -1,0 +1,32 @@
+
+<div class="container-fluid">
+    <div class="navbar navbar-fixed-top navbar-inner">
+        <div class="container-fluid">
+            <a class="brand" href="">Coach</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav" style="float: right">
+
+
+                    #if($onLine)
+                        <li>
+                            <a data-toggle="dropdown" aria-expanded="false">欢迎： $!{userName} </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="/user/listAuth">我的权限</a></li>
+                                <li><a href="/user/create">添加用户</a></li>
+                                <li><a href="/user/list">用户列表</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/user/update">修改密码</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/space">空间设置</a></li>
+                        <li><a href="/logout">退出 </a></li>
+                    #else
+                        <li><a href="/space">空间设置</a></li>
+                        <li><a href="/login">登录 </a></li>
+                    #end
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+
+
+#if($item.inputValue)
+    #set($currentValue = $item.inputValue)
+#else
+    #set($currentValue = $item.defaultValue)
+#end
+
+
+    <input type="text" name="${item.id}" class="templateAttr" value="${currentValue}"/>

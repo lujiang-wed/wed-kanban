@@ -1,0 +1,79 @@
+#set($layout="inc\contentLayout.vm")
+<div>
+    -&gt;<a href="/space/showSpace.htm?spaceId=$spaceId"><b>$spaceName</b></a>-&gt;<a href="/space/cardList.htm?spaceId=$spaceId"><b>卡片列表</b></a>-&gt;<b>$cardTitle</b>
+</div>
+
+<div>
+    <input type="hidden" id="operateType" value="$operateType" />
+    <form id="editForm" action="/card/editAttr.htm" method="post">
+        <table class="table">
+            #if($operateType == "view")
+                #parse("card/viewCard.vm")
+            #else
+                #parse("card/cardAttr.vm")
+            #end
+            <tr id="editContent">
+                <td><a class="btn btn-primary" onclick="submitAttr()">提交</a></td>
+                <td><input type="hidden" value="$spaceId" name="spaceId"></td>
+                <td><input type="hidden" value="$templateId" name="templateId"></td>
+                <td><input type="hidden" value="$cardId" name="cardId"> </td>
+            </tr>
+            <tr id="viewContent" hidden="hidden">
+                <td><a class="btn btn-primary" href="/card/editAttr.htm?cardId=$cardId">编辑卡片属性</a></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        /*document.getElementById("LeftBox").style.display="none";*/
+
+        var editor = new baidu.editor.ui.Editor({
+            maximumWords:4096,
+            saveInterval: 5000000
+        });
+        if ($("#operateType").val() == "view"){
+            $("#editContent").hide();
+            $("#viewContent").show();
+            editor  = new baidu.editor.ui.Editor({
+                toolbars:[],
+                initialFrameWidth: '100%',
+                //initialFrameHeight: '100%',
+                readonly:true
+            });
+        }
+
+        var richList = $(".richTextTemplate");
+//        for (var i=0;i<richList.length;i++){
+            editor.render( richList[0].id ); //此处的参数值为编辑器的id值
+//        }
+    });
+
+    function submitAttr(){
+        var formData = $("#editForm").serializeArray();
+        var flag = 0;
+//        $.each(formData, function(i, field){
+//            if ("" == field.value){
+//                alert("卡片属性尚未完全初始化");
+//                flag = 1;
+//            }
+//        });
+
+        var numberTemplateList = $(".numberTemplate");
+        for (var i=0;i<numberTemplateList.length;i++){
+            if (isNaN(numberTemplateList[i].value)){
+                alert(numberTemplateList[i].parentNode.parentNode.firstChild.innerHTML+"只能为数字");
+                flag = 1;
+                break;
+            }
+        }
+        if (flag == 0){
+            $("#editForm").submit();
+        }
+
+    }
+
+
+</script>

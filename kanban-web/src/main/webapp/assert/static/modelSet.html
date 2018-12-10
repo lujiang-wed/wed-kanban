@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>空间模板设置</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+</head>
+<body>
+<div class="navbar navbar-fixed-top navbar-inner">
+    <div class="container-fluid">
+        <a class="brand" href="">Coach</a>
+        <div class="nav-collapse collapse">
+            <ul class="nav" style="float: right">
+                <li><a href="modelSet.html">空间设置</a></li>
+                <li><a href="login.html">登录</a></li>
+                <li><a href="#">退出</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="span3">
+    <ul class="nav nav-list sidenav">
+        <li><a href="create.html" id="createSpace">创建空间</a></li>
+        <li><a href="modelSet.html" id="setModel">模板设置</a></li>
+        <li><a href="common.html" id="spaceList">空间列表</a>
+            <!--下面的ul是第二级 -->
+            <ul class="nav nav-list second-list hide">
+                <li><a id="list1" href="#">list1</a>
+                    <!--第三级 加载数据后 用js动态添加节点 并以后面加数字的方式设置不同的ul id-->
+                    <ul class="nav nav-list third-list hide" id="th-list1">
+                        <li><a href="#">list1-1</a></li>
+                        <li><a href="#">list1-2</a></li>
+                    </ul>
+                <li><a id="list2" href="#">list2</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<div class="span7">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#createModel" data-toggle="tab">创建模板</a></li>
+        <li><a href="#modifyModel" data-toggle="tab">修改现有模板</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="createModel">
+            <form class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label">模板名称：</label>
+                    <div class="controls"><input type="text" value="" name="modelName"></div>
+                </div>
+                <div></div>
+            </form>
+        </div>
+
+        <div class="tab-pane" id="modifyModel">
+
+        </div>
+    </div>
+</div>
+
+<div class="span3">
+    <p>模板控件</p>
+    <div class="alert alert-info">
+        <button type="button" class="dialog-close" data-dismiss="alert">&times;</button>
+        <strong>提示! </strong><br>请根据需要任意选择下列中的模板控件，添加到您创建的空间模板中。
+    </div>
+    <form></form>
+</div>
+
+</body>
+</html>

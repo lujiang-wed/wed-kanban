@@ -1,0 +1,18 @@
+    <div class="span10">
+        <ul class="nav nav-tabs">
+
+            <li><a href="#detail" data-toggle="tab">空间详情</a>
+##            <li ><a href="#card" data-toggle="tab">卡片列表</a></li>
+
+            <li><a href="#modelList" data-toggle="tab">模板列表</a></li>
+            <li><a href="#auth" data-toggle="tab">权限设置</a></li>
+            <li><a href="cardList.htm?spaceId=$spaceId">卡片列表</a></li>
+
+        </ul>
+        <div class="tab-content">
+            #set ( $spaceId = $!{spaceId} )
+            #parse('space/spaceDetail.vm')
+            #parse('template/templateList.vm')
+            #parse('auth/authManage.vm')
+        </div>
+    </div>

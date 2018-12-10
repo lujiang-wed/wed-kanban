@@ -1,0 +1,292 @@
+
+<div class="span12">
+    <!--创建模板的content-->
+    <div class="span9">
+        <form class="form-horizontal" method="post">
+            <div class="control-group">
+                <label class="control-label">排序输入不合法，请返回</label>
+##                <label class="control-label">${template.name}</label>
+                <input type="hidden" value="${template.id}" id="templateId"/>
+                <input type="hidden" value="$!{template.parentAttrList}" id="parentAttrListShow">
+                <input type="hidden" value="$!{template.attrList}" id="attrListShow">
+
+            ##                <input type="hidden" value="${template.parentAttrList}" id="parentAttrList"  />##如何传值？？
+            ##                <input type="hidden" value="${template.attrList}" id="attrList"  />
+                <table class="table table-bordered" id="templeteTable">
+                    <thead>
+                    <tr>
+                        <th width="15%">&nbsp;&nbsp;&nbsp;<input type="submit" formaction="/template/sortAttrList?templateId=$!{templateIdStr}" value="排序"></th>
+                        <th width="18%">属性名称</th>
+                        <th width="15%">类型</th>
+                        <th width="15%">默认值</th>
+                        <th width="15%">选项</th>
+                        <th width="22%">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody contenteditable="true">
+                        #foreach($item in $template.parentAttrList)##加载父模板的属性
+                        <tr>
+                            <td><input type="text" name="$!{item.attrLabel}" class="input-small" value="$!{item.attrLabelIndex}"></td>
+                            <td>$!{item.attrLabel}</td>
+                            <input type="hidden" value="$!{item.id}" name="id" /></td>
+                            <td>$!{item.inputType}</td>
+                            <td>$!{item.defaultValue}</td>
+                            <td>$!{item.inputOption}</td>
+                            <td></td>
+                        </tr>
+                        #end
+                        #foreach($item in $template.attrList)##加载子模板的属性
+                        <tr>
+                            <td><input type="text" name="$!{item.attrLabel}" class="input-small"  value="$!{item.attrLabelIndex}"></td>
+                            <td><input type="text" value="$!{item.attrLabel}" name="name" class="input-small">
+                                <input type="hidden" value="$!{item.id}" name="id" /></td>
+                            <td>$!{item.inputType}</td>
+                            <td><input type="text" value="$!{item.defaultValue}" name="defaultValue" class="input-small"></td>
+                            <td><input type="text" value="$!{item.inputOption}" name="inputOption" class="input-small"></td>
+                            <td><input class="btn" value="保存" type="button" onclick="saveTem(this)" class="btn">
+                                <input class="btn" value="删除" type="button" onclick="deleteTem(this)" class="btn">
+                            </td>
+                        </tr>
+                        #end
+
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+
+        <div class="span12" style="margin-left: 0">
+            <div class="span12  ">
+                <div class="control-data-group">
+                    <table class="table table-bordered" id="templeteTable2">
+                        <thead>
+                        <tr>
+                            <th width="25%">属性名称</th>
+                            <th width="25%">操作类型</th>
+                            <th width="25%">步长</th>
+                            <th width="25%">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody contenteditable="true">
+                            #foreach($item in $template.parentAttrList)##加载父模板的属性
+
+                                #if($!{item.inputType} == "number")
+                                <input type="hidden" value="$!{item.attrLabel}" name="parentTypeLabel" />  ##传值用于在modeljs中加载option
+                                    #if("" != $item.inputOption)
+                                    <tr name = "upDownRow">
+                                        <td><select name="attrType" disabled="disabled" style="width: 150px" id = "$!{item.attrLabel}" > </select></td>
+                                    ##                                        <input type="hidden" value="$!{item.id}" name="id" /></td>  ##保存时候用
+                                        <td><select name="opType" disabled="disabled" style="width: 100px" id = "opType$!{item.attrLabel}">  <option name="0" value="0">加</option><option name = "1" value="1">减</option><option name = "0,1" value="0,1">加减</option> </select></td>
+                                    ##                                        #if("0,1" == $item.inputOption)
+                                        <script type="text/javascript">
+                                            var opSelect = document.getElementById("opType$!{item.attrLabel}");
+                                            var attrSelections =opSelect.getElementsByTagName("option");//返回一个Option列
+                                            attrSelections[0].name = "0";
+                                            attrSelections[1].name = "1";
+                                            attrSelections[2].name = "0,1";
+                                            for(var i = 0; i < attrSelections.length; i++) {
+                                                if(attrSelections[i].name == $item.inputOption) {
+
+                                                    attrSelections[1].setAttribute("selected","selected");//被选中
+                                                } else {
+                                                    attrSelections[i].removeAttribute("selected");
+                                                }
+                                            }
+                                        </script>
+                                        <td>1</td>
+                                        <td><input class="btn" value="保存" type="button" onclick="saveOpTem(this)" class="btn">
+                                            <input class="btn" value="删除" type="button" onclick="deleteOpTem(this)" class="btn">
+                                        </td>
+                                    </tr>
+                                    #end
+                                #end
+                            #end
+                            #foreach($item in $template.attrList)##加载子模板的属性
+                            ##                            <td>$item.inputOption</td>
+                            ##                            <td>$item.inputType</td>
+                                #if($!{item.inputType} == "number")
+                                <input type="hidden" value="$!{item.attrLabel}" name="typeLabel" />  ##传值用于在modeljs中加载option
+                                    #if("" != $item.inputOption)
+                                    <tr name = "upDownRow">
+                                        <td><select name="attrType" disabled="disabled" style="width: 150px" id = "$!{item.attrLabel}" > </select></td>
+                                    ##                                        <input type="hidden" value="$!{item.id}" name="id" /></td>  ##保存时候用
+                                        <td><select name="opType" disabled="disabled" style="width: 100px" id = "opType$!{item.attrLabel}">  <option name="0" value="0">加</option><option name = "1" value="1">减</option><option name = "0,1" value="0,1">加减</option> </select></td>
+                                    ##                                        #if("0,1" == $item.inputOption)
+                                        <script type="text/javascript">
+                                            var opSelect = document.getElementById( "opType$!{item.attrLabel}");
+                                            var attrSelections =opSelect.getElementsByTagName("option");//返回一个Option列
+                                            attrSelections[0].name = "0";
+                                            attrSelections[1].name = "1";
+                                            attrSelections[2].name = "0,1";
+                                            for(var i = 0; i < attrSelections.length; i++) {
+                                                if(attrSelections[i].name == $item.inputOption) {
+                                                    attrSelections[i].setAttribute("selected","selected");//被选中
+                                                } else {
+                                                    attrSelections[i].removeAttribute("selected");
+                                                }
+                                            }
+                                        </script>
+                                    ##                                        #end
+                                    ##                                        #if("0" == $item.inputOption)
+                                    ##                                            <td><select name="opType" style="width: 100px" >  <option>加减</option> </select></td>
+                                    ##                                        #end
+                                    ##                                        #if("1" == $item.inputOption)
+                                    ##                                            <td><select name="opType" style="width: 100px" >  <option>加减</option> </select></td>
+                                    ##                                        #end
+                                    ##                                        <td><input type="text" value="$!{item.inputOption}" name="inputOption" class="input-small"></td>
+                                        <td>1</td>
+                                        <td><input class="btn" value="保存" type="button" onclick="saveOpTem(this)" class="btn">
+                                            <input class="btn" value="删除" type="button" onclick="deleteOpTem(this)" class="btn">
+                                        </td>
+                                    </tr>
+                                    #end
+                                #end
+
+                            #end
+                        </tbody>
+                </div>
+            </div>
+        </div>
+
+        <div class="span12" style="margin-left: 0">
+            <div class="span12  ">
+                <div class="control-data-group1">
+                    <table class="table table-bordered" id="templeteTable3">
+                        <thead>
+                        <tr>
+                            <th width="25%">属性选项１</th>
+                            <th width="25%">属性选项２</th>
+                            <th width="25%">操作类型</th>
+                            <th width="25%">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody contenteditable="true">
+                            #foreach($item in $template.parentAttrList)##加载父模板的属性
+
+                                #if($!{item.inputType} == "execute")
+                                <input type="hidden" value="$!{item.attrLabel}" name="parentTypeLabel" />  ##传值用于在modeljs中加载option
+                                    #if("" != $item.inputOption)
+                                    <tr name = "opDownRow">
+                                        <td><select name="attrType" disabled="disabled" style="width: 150px" id = "$!{item.attrLabel}" > </select></td>
+                                    ##                                        <input type="hidden" value="$!{item.id}" name="id" /></td>  ##保存时候用
+                                        <td><select name="1opType" disabled="disabled" style="width: 100px" id = "1opType$!{item.attrLabel}">  <option name="0" value="0">加</option><option name = "1" value="1">减</option><option name = "0,1" value="0,1">加减</option> </select></td>
+                                    ##                                        #if("0,1" == $item.inputOption)
+                                        <script type="text/javascript">
+                                            var opSelect = document.getElementById("1opType$!{item.attrLabel}");
+                                            var attrSelections =opSelect.getElementsByTagName("option");//返回一个Option列
+                                            attrSelections[0].name = "0";
+                                            attrSelections[1].name = "1";
+                                            attrSelections[2].name = "0,1";
+                                            for(var i = 0; i < attrSelections.length; i++) {
+                                            ##                                                                        var inputOptionArray = $item.inputOption.split(":")[0];
+                                                if(attrSelections[i].name == $item.inputOption.split(":")[0]) {
+                                                    attrSelections[i].setAttribute("selected","selected");//被选中
+                                                } else {
+                                                    attrSelections[i].removeAttribute("selected");
+                                                }
+                                            }
+                                        </script>
+                                        <td>1</td>
+                                        <td><input class="btn" value="保存" type="button" onclick="saveOpTem1(this)" disabled="disabled" class="btn">
+                                            <input class="btn" value="删除" type="button" onclick="deleteOpTem1(this)" class="btn">
+                                        </td>
+                                    </tr>
+                                    #end
+                                #end
+                            #end
+                            #foreach($item in $template.attrList)##加载子模板的属性
+                            ##                            <td>$item.inputOption</td>
+                            ##                            <td>$item.inputType</td>
+                                #if($!{item.inputType} == "execute")
+                                <input type="hidden" value="$!{item.attrLabel}" name="typeLabel" />  ##传值用于在modeljs中加载option
+                                    #if("" != $item.inputOption)
+                                    <tr name = "opDownRow">
+                                        <td><select name="attrType" disabled="disabled" style="width: 150px" id = "$!{item.attrLabel}" > </select></td>
+                                    ##                                        <input type="hidden" value="$!{item.id}" name="id" /></td>  ##保存时候用
+                                        <td><select name="1opType" disabled="disabled" style="width: 100px" id = "1opType$!{item.attrLabel}">  <option name="0" value="0">加</option><option name = "1" value="1">减</option><option name = "0,1" value="0,1">加减</option> </select></td>
+                                    ##                                        #if("0,1" == $item.inputOption)
+                                        <script type="text/javascript">
+                                            var opSelect = document.getElementById( "1opType$!{item.attrLabel}");
+                                            var attrSelections =opSelect.getElementsByTagName("option");//返回一个Option列
+                                            attrSelections[0].name = "0";
+                                            attrSelections[1].name = "1";
+                                            attrSelections[2].name = "0,1";
+                                            for(var i = 0; i < attrSelections.length; i++) {
+                                            ##                                                                        var inputOptionArray = $item.inputOption.split(":")[0];
+                                                if(attrSelections[i].name == $item.inputOption.split(":")[0]) {
+                                                    attrSelections[i].setAttribute("selected","selected");//被选中
+                                                } else {
+                                                    attrSelections[i].removeAttribute("selected");
+                                                }
+                                            }
+                                        </script>
+
+                                        <td>1</td>
+                                        <td><input class="btn" value="保存" type="button" onclick="saveOpTem1(this)" disabled="disabled" class="btn">
+                                            <input class="btn" value="删除" type="button" onclick="deleteOpTem1(this)" class="btn">
+                                        </td>
+                                    </tr>
+                                    #end
+                                #end
+
+                            #end
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="span3">
+        <p>模板控件</p>
+
+        <div class="alert alert-info">
+            <button type="button" class="dialog-close" data-dismiss="alert">&times;</button>
+            <strong>提示! </strong><br>请根据需要任意选择下列中的模板控件，添加到您创建的空间模板中。
+        </div>
+        <div class="text-center" id="customedBox">
+            <div class="add-border" id="select" name="select">下拉框</div>
+            <div class="add-border" id="checkBox" name="checkBox">复选按钮：checkBox</div>
+            <div class="add-border" id="radioBox" name="radio">单选按钮：radioBox</div>
+            <div class="add-border" id="richText" name="richText">富文本编辑：Ueditor</div>
+            <div class="add-border" id="singleText" name="singleText">单行文本</div>
+            <div class="add-border" id="number" name="number">数字</div>
+            <div class="add-border" id="date" name="date">日期控件</div>
+        </div>
+        <div class="text-center" id="upDown">
+            <div class="add-border" id="upDown1" name="date">加减属性</div>
+        </div>
+        <div class="text-center" id="opDown">
+            <div class="add-border" id="opDown1" name="date">两选项加/减操作</div>
+        </div>
+    </div>
+
+</div>
+
+##<script type="text/javascript">
+##    function judge()
+##    {
+##        var arr = [];
+##        var  parentAttrList = $("#parentAttrListShow").val();
+##        var attrList = $("#attrListShow").val();
+##        for(var i=0;i < parentAttrList.length; i++)
+##        {
+##            var name = parentAttrList[i].attrLabel;
+##            var valuetemp = document.getElementsByName(name)[0].value;
+##            if(valuetemp == null)
+##            {
+##                alert("");
+##            }
+##            var valueInt = parseInt(document.getElementsByName(name)[0].value);
+##            for(var j=0; j<arr.length;j++)
+##            {
+##                if(valueInt == arr[j])
+##                {
+##                    alert("");
+##                }
+##            }
+##        }
+##    }
+##</script>
+

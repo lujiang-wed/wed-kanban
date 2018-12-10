@@ -1,0 +1,11 @@
+#if($item.inputValue)
+    #set($currentValue = $item.inputValue)
+#else
+    #set($currentValue = $item.defaultValue)
+#end
+
+<div>
+    <script id="editor-${item.id}" class="richTextTemplate" type="text/plain" name="${item.id}" style="width:100%;height:400px">${currentValue}</script>
+</div>
+
+

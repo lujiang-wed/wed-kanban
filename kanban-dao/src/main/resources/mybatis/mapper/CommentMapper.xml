@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="CommentMapper" >
+  <resultMap id="BaseResultMap" type="com.wednesday.kanban.domain.Comment" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="comment_type" property="commentType" jdbcType="TINYINT" />
+    <result column="comment_object" property="commentObject" jdbcType="BIGINT" />
+    <result column="object_status" property="objectStatus" jdbcType="VARCHAR" />
+    <result column="reviewer_pin" property="reviewerPin" jdbcType="VARCHAR" />
+    <result column="reviewer_nick" property="reviewerNick" jdbcType="VARCHAR" />
+    <result column="commnet" property="commnet" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, comment_type, comment_object, object_status, reviewer_pin, reviewer_nick, commnet, 
+    creator, create_time, modifier, modify_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from comment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.wednesday.kanban.domain.Comment" >
+    insert into comment (id, comment_type, comment_object, 
+      object_status, reviewer_pin, reviewer_nick, 
+      commnet, creator, create_time, 
+      modifier, modify_time)
+    values (#{id,jdbcType=BIGINT}, #{commentType,jdbcType=TINYINT}, #{commentObject,jdbcType=BIGINT}, 
+      #{objectStatus,jdbcType=VARCHAR}, #{reviewerPin,jdbcType=VARCHAR}, #{reviewerNick,jdbcType=VARCHAR}, 
+      #{commnet,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifier,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wednesday.kanban.domain.Comment" >
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="commentType != null" >
+        comment_type,
+      </if>
+      <if test="commentObject != null" >
+        comment_object,
+      </if>
+      <if test="objectStatus != null" >
+        object_status,
+      </if>
+      <if test="reviewerPin != null" >
+        reviewer_pin,
+      </if>
+      <if test="reviewerNick != null" >
+        reviewer_nick,
+      </if>
+      <if test="commnet != null" >
+        commnet,
+      </if>
+      <if test="creator != null" >
+        creator,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifier != null" >
+        modifier,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="commentType != null" >
+        #{commentType,jdbcType=TINYINT},
+      </if>
+      <if test="commentObject != null" >
+        #{commentObject,jdbcType=BIGINT},
+      </if>
+      <if test="objectStatus != null" >
+        #{objectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewerPin != null" >
+        #{reviewerPin,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewerNick != null" >
+        #{reviewerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="commnet != null" >
+        #{commnet,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wednesday.kanban.domain.Comment" >
+    update comment
+    <set >
+      <if test="commentType != null" >
+        comment_type = #{commentType,jdbcType=TINYINT},
+      </if>
+      <if test="commentObject != null" >
+        comment_object = #{commentObject,jdbcType=BIGINT},
+      </if>
+      <if test="objectStatus != null" >
+        object_status = #{objectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewerPin != null" >
+        reviewer_pin = #{reviewerPin,jdbcType=VARCHAR},
+      </if>
+      <if test="reviewerNick != null" >
+        reviewer_nick = #{reviewerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="commnet != null" >
+        commnet = #{commnet,jdbcType=VARCHAR},
+      </if>
+      <if test="creator != null" >
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null" >
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wednesday.kanban.domain.Comment" >
+    update comment
+    set comment_type = #{commentType,jdbcType=TINYINT},
+      comment_object = #{commentObject,jdbcType=BIGINT},
+      object_status = #{objectStatus,jdbcType=VARCHAR},
+      reviewer_pin = #{reviewerPin,jdbcType=VARCHAR},
+      reviewer_nick = #{reviewerNick,jdbcType=VARCHAR},
+      commnet = #{commnet,jdbcType=VARCHAR},
+      creator = #{creator,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
