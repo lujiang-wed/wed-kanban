@@ -21,8 +21,49 @@ public class BaseController {
      */
     protected void bindRequestParam(HttpServletRequest request, Object object) {
         ServletRequestDataBinder binder = new ServletRequestDataBinder(object);
-        //将所有传递进来的String进行HTML编码，防止XSS攻击（@lpm：打开这段代码，需要对帮助中心进行修改）
-        //日期过滤
+        // 将所有传递进来的String进行HTML编码，防止XSS攻击（@lpm：打开这段代码，需要对帮助中心进行修改）
+        // binder.registerCustomEditor(String.class, new PropertyEditorSupport()
+        // {
+        // @Override
+        // public void setAsText(String text) {
+        // setValue(text == null ? null :
+        // StringEscapeUtils.escapeHtml(text.trim()));
+        // }
+        // @Override
+        // public String getAsText() {
+        // Object value = getValue();
+        // return value != null ? value.toString() : "";
+        // }
+        // });
+        binder.registerCustomEditor(String.class, "offset", new PropertyEditorSupport() {
+            public void setAsIntger(String value) {
+                try {
+                    setValue(Integer.parseInt(value));
+                } catch (NumberFormatException ex) {
+                    setValue(null);
+                }
+            }
+
+            public Integer getAsInteger() {
+                return (Integer) getValue();
+            }
+        });
+
+        binder.registerCustomEditor(String.class, "limit", new PropertyEditorSupport() {
+            public void setAsIntger(String value) {
+                try {
+                    setValue(Integer.parseInt(value));
+                } catch (NumberFormatException ex) {
+                    setValue(null);
+                }
+            }
+
+            public Integer getAsInteger() {
+                return (Integer) getValue();
+            }
+        });
+
+        // 日期过滤
         binder.registerCustomEditor(Date.class, new PropertyEditorSupport() {
             public void setAsText(String value) {
                 try {
@@ -41,6 +82,7 @@ public class BaseController {
             }
 
         });
+
         binder.bind(request);
     }
 }

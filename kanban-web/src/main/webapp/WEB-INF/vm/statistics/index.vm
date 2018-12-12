@@ -29,7 +29,7 @@
 <input type="hidden" id="sprintMax" value=$!sprintMax>
 <input type="hidden" id="spaceName" value=$!spaceName>
 
-<script src="/assert/js/jquery-1.7.2.min.js"></script>
+<script src="/assert/js/jquery-2.2.4.min.js"></script>
 <script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script>
 <script type="text/javascript">
     var curWwwPath=window.document.location.href;

@@ -226,9 +226,6 @@ public class CardTemplateBizImpl implements CardTemplateBiz {
                 this.updateTemplateAttr(templateAttrParam);
             }
         }
-        //redis
-//        if(RedisAvailable.checkRedisAvalable())
-//            redisDao.set("coach_template_attr_dirty","1");
         return true;
     }
 
@@ -331,9 +328,6 @@ public class CardTemplateBizImpl implements CardTemplateBiz {
             return false;
         }
         cardTemplateService.deleteCardTemplateAttr(templateAttrId);
-
-//        if(RedisAvailable.checkRedisAvalable())
-//            redisDao.set("coach_template_attr_dirty","1");
         return true;
     }
 
@@ -372,7 +366,6 @@ public class CardTemplateBizImpl implements CardTemplateBiz {
         }
         logger.info("删除模板:{}",templateId);
         cardTemplateService.deleteCardTemplate(templateId);
-//        redisDao.set("coach_template_attr_dirty","1");
         return true;
     }
 

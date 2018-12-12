@@ -9,10 +9,6 @@
 
 <div class="tab-pane" id="card" style="width: 128%;">
     <form class="form-search" name="searchForm" id="searchForm">
-    #*        <div class="input-append">
-            <input type="text" class="input-xlarge search-query">
-            <input type="submit" class="btn" value="搜 索">
-        </div>*#
     </form>
 
     <div>
@@ -43,8 +39,6 @@
             <option value="status" selected="selected">状态</option>
             <option value="cardType" selected="selected">类型</option>
             <option value="sprint" selected="selected">迭代</option>
-        ##            <option value="template" selected="selected">模板</option>
-        ##            <option value="creator" selected="selected">创建人</option>
             <option value="createTime" selected="selected">创建时间</option>
         </select>
 
@@ -72,8 +66,6 @@
             <th name="status"><a name="状态|sortTable(2, '状态', 'text', true, event)" herf="#" onclick="sortTable(0, '状态', 'text', true, event)">状态</a></th>
             <th name="cardType"><a name="类型|sortTable(3, '类型', 'text', true, event)" herf="#" onclick="sortTable(0, '类型', 'text', true, event)">类型</a></th>
             <th name="sprint"><a name="迭代|sortTable(4, '迭代', 'number', true, event)" herf="#" onclick="sortTable(4, '迭代', 'number', true, event)">迭代</a></th>
-        ##            <th name="template">模板</th>
-        ##            <th name="creator">创建人</th>
             <th name="createTime"><a name="创建时间|sortTable(7, '创建时间', 'text', true, event)" herf="#" onclick="sortTable(0, '创建时间', 'text', true, event)">创建时间</a></th>
             <th>操作</th>
         </tr>
@@ -83,7 +75,6 @@
 
         </tbody>
     </table>
-##    <div class="span7 add-border offset2 text-center" id="createCardBtn">新建卡片</div>
     <br/>
     <br/>
     <br/>
@@ -124,17 +115,6 @@
                         <td>标题：&nbsp;&nbsp;&nbsp;</td>
                         <td><input type="text" id="title" name="title"></td>
                     </tr>
-                #*                    <tr>
-                                        <td>当前状态：&nbsp;&nbsp;&nbsp;</td>
-                                        <td>
-                                            <select id="currentStatus" name="currentStatus">
-                                                <option value="需求池">需求池</option>
-                                                <option value="待研发">待研发</option>
-                                                <option value="研发">研发</option>
-                                                <option value="测试">测试</option>
-                                            </select>
-                                        </td>
-                                    </tr>*#
                     <tr>
                         <td>选择模板：&nbsp;&nbsp;&nbsp;</td>
                         <td>
@@ -145,12 +125,6 @@
                             </select>
                         </td>
                     </tr>
-                #*                    <tr>
-                                        <td>简要介绍：&nbsp;&nbsp;&nbsp;</td>
-                                        <td>
-                                            <input type="text" id="cardDesc" name="cardDesc" />
-                                        </td>
-                                    </tr>*#
                     <tr>
                         <td>
                             <a onclick="hideCreateCard()">取消</a>
@@ -468,54 +442,12 @@
             }
         }
 
-//        var selections = document.getElementById("chooseTemplate").getElementsByTagName("option");
-//        selections[1].setAttribute("selected", "selected");
-//
-//        for(var i = 0; i < selections.length && i != 1; i++) {
-//            selections[0].removeAttribute("selected");
-//        }
-
-        var selections = document.getElementById("chooseTemplate").getElementsByTagName("option");
+        var selections = $("#chooseTemplate option");
         selections[1].setAttribute("selected", "selected");
 
         for(var i = 0; i < selections.length && i != 1; i++) {
             selections[i].removeAttribute("selected");
         }
-
-
-//        var templateId = $.cookie('templateId');
-//        if(templateId != null) {
-//            var templateSelections = document.getElementById("chooseTemplate").getElementsByTagName("option");
-//
-//            for(var i = 0; i < templateSelections.length; i++) {
-//                if(templateSelections[i].value == templateId) {
-//                    templateSelections[i].setAttribute("selected","selected");
-//                } else {
-//                    templateSelections[i].removeAttribute("selected");
-//                }
-//            }
-//        }
-
-//        var sprintId = $.cookie('sprintId');
-//        if(sprintId != null) {
-//            savedSprintId = sprintId;
-//
-//            var sprintSelections = document.getElementById("chooseSprint").getElementsByTagName("option");
-//            sprintSelections[0].removeAttribute("selected");
-//        }
-
-//        var cardType = $.cookie('cardType');
-//        if(cardType != null) {
-//            var cardTypeSelections = document.getElementById("chooseCardType").getElementsByTagName("option");
-//
-//            for(var i = 0; i < cardTypeSelections.length; i++) {
-//                if(cardTypeSelections[i].value == cardType) {
-//                    cardTypeSelections[i].setAttribute("selected","selected");
-//                } else {
-//                    cardTypeSelections[i].removeAttribute("selected");
-//                }
-//            }
-//        }
 
         deselectedCustomizedFilter = "";
         doFilter = false;

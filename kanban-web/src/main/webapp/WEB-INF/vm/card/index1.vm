@@ -76,14 +76,6 @@
     <table class="table table-bordered">
         <thead>
         <tr id="cardHeader">
-        ##            <th><a name="编号|sortTable(0, '编号', 'number', true, event)" herf="#" onclick="sortTable(0, '编号', 'number', true, event)">编号</a></th>
-        ##            <th name="title"><a name="标题|sortTable(1, '标题', 'text', true, event)" herf="#" onclick="sortTable(0, '标题', 'text', true, event)">标题</a></th>
-        ##            <th name="status"><a name="状态|sortTable(2, '状态', 'text', true, event)" herf="#" onclick="sortTable(0, '状态', 'text', true, event)">状态</a></th>
-        ##            <th name="cardType"><a name="类型|sortTable(3, '类型', 'text', true, event)" herf="#" onclick="sortTable(0, '类型', 'text', true, event)">类型</a></th>
-        ##            <th name="sprint"><a name="迭代|sortTable(4, '迭代', 'number', true, event)" herf="#" onclick="sortTable(4, '迭代', 'number', true, event)">迭代</a></th>
-        ##                    <th name="template">模板</th>
-        ##                    <th name="creator">创建人</th>
-        ##            <th name="createTime"><a name="创建时间|sortTable(7, '创建时间', 'text', true, event)" herf="#" onclick="sortTable(0, '创建时间', 'text', true, event)">创建时间</a></th>
             <th>操作</th>
         </tr>
         </thead>
@@ -92,7 +84,6 @@
 
         </tbody>
     </table>
-##    <div class="span7 add-border offset2 text-center" id="createCardBtn">新建卡片</div>
     <br/>
     <br/>
     <br/>
@@ -482,54 +473,12 @@
             }
         }
 
-//        var selections = document.getElementById("chooseTemplate").getElementsByTagName("option");
-//        selections[1].setAttribute("selected", "selected");
-//
-//        for(var i = 0; i < selections.length && i != 1; i++) {
-//            selections[0].removeAttribute("selected");
-//        }
-
-        var selections = document.getElementById("chooseTemplate").getElementsByTagName("option");
+        var selections = $("#chooseTemplate option");
         selections[1].setAttribute("selected", "selected");
 
         for(var i = 0; i < selections.length && i != 1; i++) {
             selections[i].removeAttribute("selected");
         }
-
-
-//        var templateId = $.cookie('templateId');
-//        if(templateId != null) {
-//            var templateSelections = document.getElementById("chooseTemplate").getElementsByTagName("option");
-//
-//            for(var i = 0; i < templateSelections.length; i++) {
-//                if(templateSelections[i].value == templateId) {
-//                    templateSelections[i].setAttribute("selected","selected");
-//                } else {
-//                    templateSelections[i].removeAttribute("selected");
-//                }
-//            }
-//        }
-
-//        var sprintId = $.cookie('sprintId');
-//        if(sprintId != null) {
-//            savedSprintId = sprintId;
-//
-//            var sprintSelections = document.getElementById("chooseSprint").getElementsByTagName("option");
-//            sprintSelections[0].removeAttribute("selected");
-//        }
-
-//        var cardType = $.cookie('cardType');
-//        if(cardType != null) {
-//            var cardTypeSelections = document.getElementById("chooseCardType").getElementsByTagName("option");
-//
-//            for(var i = 0; i < cardTypeSelections.length; i++) {
-//                if(cardTypeSelections[i].value == cardType) {
-//                    cardTypeSelections[i].setAttribute("selected","selected");
-//                } else {
-//                    cardTypeSelections[i].removeAttribute("selected");
-//                }
-//            }
-//        }
 
         deselectedCustomizedFilter = "";
         doFilter = false;

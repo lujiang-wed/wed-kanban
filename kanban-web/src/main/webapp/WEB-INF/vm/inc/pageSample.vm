@@ -1,8 +1,8 @@
 <ul class="pager">
-        #if(${currentPage}>=1)
-                #set($prePage=$currentPage - 1)
-                <li><a href="${urlPre}$!{prePage}">前一页</a></li>
-   #end
-        #set($nextPage=$currentPage+1)
-  <li><a href="${urlPre}${nextPage}">后一页</a></li>
+    #if(${currentPage}>=1)
+        #set($prePage=$currentPage - 1)
+        <li><a href="${urlPre}$!{prePage}">前一页</a></li>
+    #end
+    #set($nextPage=$currentPage+1)
+    <li><a href="${urlPre}${nextPage}">后一页</a></li>
 </ul>
