@@ -8,7 +8,6 @@ import org.springframework.dao.DataAccessException;
 import java.util.List;
 import java.util.Map;
 
-
 public abstract class BaseDao extends SqlSessionDaoSupport implements ISuperDAO {
 
     protected static Logger log = LoggerFactory.getLogger(SuperDAO.class);

@@ -1,17 +1,19 @@
 #set($assetsServer="http://localhost:80")
-#set($title="WED-KANBAN")
+#set($title="Wed-KanBan")
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>$!{title} </title>
-    <link rel="stylesheet" href="assert/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assert/bootstrap/css/bootstrap-responsive.min.css">
-    <link rel="stylesheet" href="assert/static/css/common.css">
-    <link rel="stylesheet" href="assert/static/css/login.css">
-    <script type="text/javascript" src="assert/js/jquery-1.7.2.min.js"></script>
-    <script type="text/javascript" src="assert/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assert/static/js/validate.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Wed-KanBan</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="../../../assert/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../../assert/css/font-awesome.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../../assert/css/AdminLTE.min.css">
 </head>
 <body>
 $screen_content

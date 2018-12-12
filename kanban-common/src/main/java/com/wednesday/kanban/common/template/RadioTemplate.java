@@ -2,9 +2,6 @@ package com.wednesday.kanban.common.template;
 
 import java.util.List;
 
-/**
- * Created by wyzhangdong on 2014/12/9.
- */
 public class RadioTemplate extends AbstractTemplate {
 
     private static final String templateName="radio";

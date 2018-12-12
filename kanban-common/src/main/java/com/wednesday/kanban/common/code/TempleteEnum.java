@@ -1,8 +1,5 @@
 package com.wednesday.kanban.common.code;
 
-/**
- * Created by wyzhangdong on 2014/12/10.
- */
 public enum TempleteEnum {
 
     Radio("radio","单选按钮",1),CheckBox("checkBox","多选按钮",2),Select("select","下拉列表",3),SingleText("singleText","单行文本",4),RichText("richText","富文本",5);

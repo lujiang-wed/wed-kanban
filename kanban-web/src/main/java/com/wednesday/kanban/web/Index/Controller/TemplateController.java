@@ -26,9 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-/**
- * Created by wyzhangdong on 2014/12/11.
- */
 @Controller
 @RequestMapping("template")
 public class TemplateController extends BaseController{

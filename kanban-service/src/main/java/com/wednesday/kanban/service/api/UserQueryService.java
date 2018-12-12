@@ -4,9 +4,6 @@ import com.wednesday.kanban.common.Page;
 import com.wednesday.kanban.common.param.UserParam;
 import com.wednesday.kanban.domain.UserInstance;
 
-/**
- * Created by sushidong on 2015/4/21.
- */
 public interface UserQueryService {
     /**
      * 根据ID查找用户

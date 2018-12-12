@@ -4,9 +4,6 @@ import com.wednesday.kanban.domain.Auth;
 
 import java.util.List;
 
-/**
- * Created by wyyangyang1 on 2015/1/6.
- */
 public interface AuthAuditBiz {
     public List<Auth> findAll();
 

@@ -2,9 +2,6 @@ package com.wednesday.kanban.common.param;
 
 import com.wednesday.kanban.common.BasePageParam;
 
-/**
- * Created by sushidong on 2015/4/21.
- */
 public class UserParam extends BasePageParam {
 
     /**

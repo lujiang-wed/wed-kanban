@@ -2,9 +2,6 @@ package util;
 
 import java.security.MessageDigest;
 
-/**
- * Created by sushidong on 2015/4/21.
- */
 public class MD5Encrypt {
 
     /**

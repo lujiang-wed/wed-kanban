@@ -9,11 +9,9 @@
 
     <!-- 把标记了@Controller注解的类转换为bean -->
     <context:property-placeholder location="classpath*:runtimecfg/*.properties"/>
-    <context:component-scan base-package="com.wednesday.kanban"/>
+    <context:component-scan base-package="com.wednesday.kanban.service,com.wednesday.kanban.biz"/>
     <context:annotation-config/>
 
-    <import resource="spring-config-velocity.xml"/>
-    <import resource="spring-db.xml" />
     <!--<import resource="spring-redis.xml"/>-->
     <bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator" />
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
@@ -30,5 +28,4 @@
             </list>
         </property>
     </bean>
-
 </beans>

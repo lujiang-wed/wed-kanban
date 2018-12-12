@@ -1,6 +1,5 @@
 package com.wednesday.kanban.biz;
 
-import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.wednesday.kanban.biz.api.CardTemplateBiz;
 import com.wednesday.kanban.biz.transfer.CardTemplateTransfer;
 import com.wednesday.kanban.common.param.TemplateAttrParam;
@@ -11,6 +10,7 @@ import com.wednesday.kanban.domain.CardTemplateAttr;
 import com.wednesday.kanban.domain.TemplateAttrIndex;
 import com.wednesday.kanban.service.api.CardTemplateQueryService;
 import com.wednesday.kanban.service.api.CardTemplateService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +21,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by wyzhangdong on 2014/12/10.
- */
 @Component("cardTemplateBiz")
 public class CardTemplateBizImpl implements CardTemplateBiz {
 

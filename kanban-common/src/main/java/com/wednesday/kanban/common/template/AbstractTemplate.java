@@ -1,8 +1,5 @@
 package com.wednesday.kanban.common.template;
 
-/**
- * Created by wyzhangdong on 2014/12/9.
- */
 public abstract class AbstractTemplate {
 
     /**

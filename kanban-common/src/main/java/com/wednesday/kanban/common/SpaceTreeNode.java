@@ -5,9 +5,6 @@ import com.wednesday.kanban.common.code.AuthEnum;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by wyyangyang1 on 2015/1/6.
- */
 public class SpaceTreeNode {
 
 

@@ -17,6 +17,18 @@
         <module>kanban-common</module>
     </modules>
 
+    <name>${project.artifactId}</name>
+    <description>an light Agile Kanban based on java.</description>
+    <url>https://github.com/lujiang-wed/wed-kanban</url>
+    <inceptionYear>2018</inceptionYear>
+    <licenses>
+        <license>
+            <name>GNU GPL, Version 3.0</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <properties>
         <project-version>1.0.0</project-version>
         <spring-version>4.3.2.RELEASE</spring-version>
@@ -44,6 +56,7 @@
         <jsp-api.version>2.2</jsp-api.version>
 
         <logback-version>1.1.7</logback-version>
+        <logback-extensions-version>0.1.1</logback-extensions-version>
         <slf4j-version>1.7.5</slf4j-version>
 
         <junit-version>4.12</junit-version>
@@ -298,6 +311,11 @@
                 <artifactId>log4j-over-slf4j</artifactId>
                 <version>${slf4j-version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.logback-extensions</groupId>
+                <artifactId>logback-ext-spring</artifactId>
+                <version>${logback-extensions-version}</version>
+            </dependency>
 
             <!-- test -->
             <dependency>
@@ -369,6 +387,11 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.1.36</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
@@ -514,6 +537,10 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>log4j-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.logback-extensions</groupId>
+            <artifactId>logback-ext-spring</artifactId>
         </dependency>
 
         <!-- test -->

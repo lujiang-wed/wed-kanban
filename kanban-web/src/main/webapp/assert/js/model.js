@@ -1,6 +1,3 @@
-/**
- * Created by wyliyue on 2014/12/22.
- */
 $(document).ready(function () {
     //var templateTabel = document.getElementById("templeteTable")//返回控件 templeteTable
     //var trList = templateTabel.getElementsByTagName("tr");

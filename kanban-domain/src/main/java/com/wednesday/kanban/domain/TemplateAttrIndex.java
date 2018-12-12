@@ -1,9 +1,5 @@
 package com.wednesday.kanban.domain;
 
-/**
- * Created by panting1 on 2015/9/6.
- */
-
 public class TemplateAttrIndex extends BaseDomain {
 
 

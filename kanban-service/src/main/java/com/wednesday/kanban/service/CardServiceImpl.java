@@ -5,6 +5,7 @@ import com.wednesday.kanban.dao.SuperDAO;
 import com.wednesday.kanban.domain.CardAttrInstance;
 import com.wednesday.kanban.domain.CardInstance;
 import com.wednesday.kanban.service.api.CardService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -13,8 +14,9 @@ import java.util.List;
 @Service("cardService")
 public class CardServiceImpl implements CardService {
 
-    @Resource
+    @Autowired
     private SuperDAO superDAO;
+
     @Override
     public Long addCard(CardInstance cardInstance) {
         superDAO.insert("CardInstanceMapper.addCardInstance",cardInstance);

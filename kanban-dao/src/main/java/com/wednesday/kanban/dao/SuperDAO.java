@@ -10,15 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 此处填写功能、用途等，如果多行，用<br>换行
- * <p>创建日期：2014/12/4 </p>
- *
- * @author wypengbo
- * @version V1.0
- * @see
- */
-
 public class SuperDAO extends BaseDao {
 
     /**

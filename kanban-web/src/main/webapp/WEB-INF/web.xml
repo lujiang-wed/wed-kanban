@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee"
-         version="2.4">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="wed-kanban" version="2.5">
 
     <context-param>
         <param-name>logbackConfigLocation</param-name>
         <param-value>classpath:logback.xml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-*.xml</param-value>
     </context-param>
 
     <session-config>
@@ -29,40 +34,6 @@
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-      <!-- css,js 不走spring -->
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>*.jpg</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>*.png</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>*.js</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>*.css</url-pattern>
-    </servlet-mapping>
-    <!--ueditor相关-->
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>*.swf</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/assert/ueditor/dialogs/image/image.html</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/assert/ueditor/dialogs/attachment/attachment.html</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>*.gif</url-pattern>
-    </servlet-mapping>
 
     <listener>
         <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
@@ -71,22 +42,13 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-    
-    <listener>
-        <listener-class>com.wednesday.kanban.web.Index.Controller.permission.session.UserHttpSessionListener</listener-class>
-    </listener>
-
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring-config.xml</param-value>
-    </context-param>
 
     <servlet>
         <servlet-name>spring</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath*:spring-*.xml</param-value>
+            <param-value>classpath*:spring-mvc.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -94,6 +56,22 @@
     <servlet-mapping>
         <servlet-name>spring</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>*.png</url-pattern>
+        <url-pattern>*.jpg</url-pattern>
+        <url-pattern>*.js</url-pattern>
+        <url-pattern>*.less</url-pattern>
+        <url-pattern>*.css</url-pattern>
+        <url-pattern>*.svg</url-pattern>
+        <url-pattern>*.eot</url-pattern>
+        <url-pattern>*.ttf</url-pattern>
+        <url-pattern>*.woff</url-pattern>
+        <url-pattern>*.woff2</url-pattern>
+        <url-pattern>*.map</url-pattern>
+        <url-pattern>*.html</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>
@@ -105,6 +83,7 @@
         <extension>msi</extension>
         <mime-type>application/x-download</mime-type>
     </mime-mapping>
+
     <login-config>
         <auth-method>BASIC</auth-method>
     </login-config>

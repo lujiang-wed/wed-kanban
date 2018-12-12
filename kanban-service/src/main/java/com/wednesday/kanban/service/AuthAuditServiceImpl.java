@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * Created by wyyangyang1 on 2015/1/6.
- */
 @Service("authAuditServiceImpl")
 public class AuthAuditServiceImpl implements AuthAuditService {
     @Resource

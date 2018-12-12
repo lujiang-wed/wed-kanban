@@ -11,9 +11,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * Created by wyzhangdong on 2014/12/10.
- */
 @Component("cardTemplateQueryService")
 public class CardTemplateQueryServiceImpl implements CardTemplateQueryService {
 

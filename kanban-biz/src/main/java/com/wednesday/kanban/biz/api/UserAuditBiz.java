@@ -4,9 +4,6 @@ import com.wednesday.kanban.common.param.UserParam;
 import com.wednesday.kanban.domain.UserInstance;
 import com.wednesday.kanban.common.Page;
 
-/**
- * Created by sushidong on 2015/4/21.
- */
 public interface UserAuditBiz {
     public UserInstance findById(Long id);
 

@@ -1,13 +1,10 @@
 package com.wednesday.kanban.common.template;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by wyzhangdong on 2014/12/9.
- */
 public class CheckBoxTemplate extends AbstractTemplate {
 
     private static final String templateName="checkBox";

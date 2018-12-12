@@ -1,11 +1,3 @@
-/**
- * Created by JetBrains PhpStorm.
- * User: taoqili
- * Date: 12-2-20
- * Time: 上午11:19
- * To change this template use File | Settings | File Templates.
- */
-
 (function(){
 
     var video = {},

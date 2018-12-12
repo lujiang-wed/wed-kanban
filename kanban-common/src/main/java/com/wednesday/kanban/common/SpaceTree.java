@@ -1,8 +1,5 @@
 package com.wednesday.kanban.common;
 
-/**
- * Created by wyyangyang1 on 2015/1/6.
- */
 public class SpaceTree {
     /** 树根*/
     private SpaceTreeNode root;

@@ -41,13 +41,11 @@
     var curWwwPath=window.document.location.href;
     var pathName=window.document.location.pathname;
     var pos=curWwwPath.indexOf(pathName);
-    //获取主机地址，如： http://localhost:8083
     var localhostPaht=curWwwPath.substring(0,pos);
 
     var url = localhostPaht+'/space/getTree.htm';
     var form = "rootId=-1";
     $(document).ready(function () {
-
         requst(url, form);
     });
 

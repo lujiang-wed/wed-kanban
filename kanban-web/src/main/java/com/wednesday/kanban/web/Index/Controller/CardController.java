@@ -1,6 +1,5 @@
 package com.wednesday.kanban.web.Index.Controller;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.wednesday.kanban.biz.api.CardAuditBiz;
 import com.wednesday.kanban.biz.api.CardTemplateBiz;
@@ -19,6 +18,7 @@ import com.wednesday.kanban.common.utils.BeanConverter;
 import com.wednesday.kanban.common.utils.CommonUtil;
 import com.wednesday.kanban.domain.CardInstance;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -45,15 +45,10 @@ public class CardController {
     @Resource
     private SpaceAuditBiz spaceAuditBiz;
 
-    private static final String SPRINT_COOKIE_NAME = "COACH_SPRINT_NAME_";
-
+    private static final String SPRINT_COOKIE_NAME = "Wed_KanBan_SPRINT_NAME_";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CardController.class);
 
-    //redis
-//    @Resource
-//    private CacheClusterClient redisDao;
-//   s
     @RequestMapping("index.htm")
     @ResponseBody
     private String index(HttpServletRequest request,HttpServletResponse response){

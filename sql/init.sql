@@ -14,10 +14,6 @@ CREATE TABLE `auth` (
   PRIMARY KEY (`user`,`sid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-/*Data for the table `auth` */
-
-insert  into `auth`(`user`,`sid`,`privilege`) values ('yy',137,'s'),('yy',139,'s'),('yy',143,'s'),('yy',145,'s'),('yy',147,'s'),('yy',151,'s'),('yy',153,'s');
-
 /*Table structure for table `authority_content` */
 
 DROP TABLE IF EXISTS `authority_content`;
@@ -26,10 +22,6 @@ CREATE TABLE `authority_content` (
   `user` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '用户ID',
   `content` varchar(4096) COLLATE utf8_bin DEFAULT NULL COMMENT '用户权限JSON串'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-/*Data for the table `authority_content` */
-
-insert  into `authority_content`(`user`,`content`) values ('yy','{\"spaceName\":\"外包人员工作项\",\"spaceId\":143,\"childList\":[],\"privilege\":\"SPACE_WRITE_CARD_WRITE\"}],\"privilege\":\"SPACE_WRITE_CARD_WRITE\"}],\"privilege\":null}');
 
 /*Table structure for table `blacklist` */
 
@@ -53,8 +45,6 @@ CREATE TABLE `blacklist` (
   PRIMARY KEY (`id`),
   KEY `blacklist_customer_id` (`customer_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='黑名单';
-
-/*Data for the table `blacklist` */
 
 /*Table structure for table `card_attr_instance` */
 
@@ -177,8 +167,6 @@ CREATE TABLE `comment` (
   KEY `comment_created_date` (`created_date`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='评论表';
 
-/*Data for the table `comment` */
-
 /*Table structure for table `comment1` */
 
 DROP TABLE IF EXISTS `comment1`;
@@ -205,8 +193,6 @@ CREATE TABLE `comment1` (
   PRIMARY KEY (`id`),
   KEY `comment_created_date` (`created_date`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';
-
-/*Data for the table `comment1` */
 
 /*Table structure for table `comment2` */
 
@@ -235,8 +221,6 @@ CREATE TABLE `comment2` (
   KEY `comment_created_date` (`created_date`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';
 
-/*Data for the table `comment2` */
-
 /*Table structure for table `comment_article` */
 
 DROP TABLE IF EXISTS `comment_article`;
@@ -264,8 +248,6 @@ CREATE TABLE `comment_article` (
   UNIQUE KEY `idx_article_bizsys_biztype_bizid` (`biz_sys`,`biz_type`,`biz_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='文章表';
 
-/*Data for the table `comment_article` */
-
 /*Table structure for table `comment_blacklist` */
 
 DROP TABLE IF EXISTS `comment_blacklist`;
@@ -282,8 +264,6 @@ CREATE TABLE `comment_blacklist` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `customer_id` (`customer_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='黑名单';
-
-/*Data for the table `comment_blacklist` */
 
 /*Table structure for table `comment_config` */
 
@@ -302,8 +282,6 @@ CREATE TABLE `comment_config` (
   UNIQUE KEY `type_key` (`biz_type`,`config_key`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='配置表';
 
-/*Data for the table `comment_config` */
-
 /*Table structure for table `comment_count` */
 
 DROP TABLE IF EXISTS `comment_count`;
@@ -315,8 +293,6 @@ CREATE TABLE `comment_count` (
   `modified_date` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`plate_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='板块评论计数表';
-
-/*Data for the table `comment_count` */
 
 /*Table structure for table `comment_picture` */
 
@@ -335,8 +311,6 @@ CREATE TABLE `comment_picture` (
   KEY `reply_articleid_status` (`article_id`,`status`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='评论图片表';
 
-/*Data for the table `comment_picture` */
-
 /*Table structure for table `comment_praise` */
 
 DROP TABLE IF EXISTS `comment_praise`;
@@ -351,8 +325,6 @@ CREATE TABLE `comment_praise` (
   `modified_date` datetime NOT NULL DEFAULT current_timestamp() COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='点赞表';
-
-/*Data for the table `comment_praise` */
 
 /*Table structure for table `comment_reply` */
 
@@ -375,8 +347,6 @@ CREATE TABLE `comment_reply` (
   KEY `reply_articleid_status` (`article_id`,`status`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='评论表';
 
-/*Data for the table `comment_reply` */
-
 /*Table structure for table `comment_report` */
 
 DROP TABLE IF EXISTS `comment_report`;
@@ -396,8 +366,6 @@ CREATE TABLE `comment_report` (
   KEY `IDX_report_reply_id` (`reply_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='举报表';
 
-/*Data for the table `comment_report` */
-
 /*Table structure for table `comment_sensitiveword` */
 
 DROP TABLE IF EXISTS `comment_sensitiveword`;
@@ -412,8 +380,6 @@ CREATE TABLE `comment_sensitiveword` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `comment` (`comment`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='敏感词';
-
-/*Data for the table `comment_sensitiveword` */
 
 /*Table structure for table `comment_topic` */
 
@@ -435,8 +401,6 @@ CREATE TABLE `comment_topic` (
   UNIQUE KEY `idx_topic_bizsys_biztype_bizid` (`biz_sys`,`biz_type`,`biz_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='主题表';
 
-/*Data for the table `comment_topic` */
-
 /*Table structure for table `comment_topic_article` */
 
 DROP TABLE IF EXISTS `comment_topic_article`;
@@ -450,8 +414,6 @@ CREATE TABLE `comment_topic_article` (
   `modified_date` datetime NOT NULL DEFAULT current_timestamp() COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='主题文章关系表';
-
-/*Data for the table `comment_topic_article` */
 
 /*Table structure for table `config` */
 
@@ -468,8 +430,6 @@ CREATE TABLE `config` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `config_key` (`config_key`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='配置表';
-
-/*Data for the table `config` */
 
 /*Table structure for table `op_log` */
 
@@ -489,8 +449,6 @@ CREATE TABLE `op_log` (
   `modify_time` datetime DEFAULT NULL COMMENT '最后修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='操作日志';
-
-/*Data for the table `op_log` */
 
 /*Table structure for table `plate` */
 
@@ -513,8 +471,6 @@ CREATE TABLE `plate` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='板块表';
 
-/*Data for the table `plate` */
-
 /*Table structure for table `praise` */
 
 DROP TABLE IF EXISTS `praise`;
@@ -530,8 +486,6 @@ CREATE TABLE `praise` (
   UNIQUE KEY `praise_count_index` (`comment_id`,`customer_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='点赞表';
 
-/*Data for the table `praise` */
-
 /*Table structure for table `praise_count` */
 
 DROP TABLE IF EXISTS `praise_count`;
@@ -546,8 +500,6 @@ CREATE TABLE `praise_count` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `praise_count_index` (`comment_id`,`customer_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='点赞表';
-
-/*Data for the table `praise_count` */
 
 /*Table structure for table `reply` */
 
@@ -577,8 +529,6 @@ CREATE TABLE `reply` (
   KEY `reply_created_date` (`created_date`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='回复表';
 
-/*Data for the table `reply` */
-
 /*Table structure for table `report` */
 
 DROP TABLE IF EXISTS `report`;
@@ -602,8 +552,6 @@ CREATE TABLE `report` (
   KEY `IDX_report_reply_id` (`reply_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='举报表';
 
-/*Data for the table `report` */
-
 /*Table structure for table `sensitive_word` */
 
 DROP TABLE IF EXISTS `sensitive_word`;
@@ -617,8 +565,6 @@ CREATE TABLE `sensitive_word` (
   `modified_date` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='敏感词';
-
-/*Data for the table `sensitive_word` */
 
 /*Table structure for table `space` */
 
@@ -660,8 +606,6 @@ CREATE TABLE `sprint` (
   KEY `id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-/*Data for the table `sprint` */
-
 /*Table structure for table `t_user` */
 
 DROP TABLE IF EXISTS `t_user`;
@@ -683,8 +627,6 @@ CREATE TABLE `t_user` (
   KEY `status` (`status`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Data for the table `t_user` */
-
 /*Table structure for table `template_attr_for_index` */
 
 DROP TABLE IF EXISTS `template_attr_for_index`;
@@ -700,7 +642,6 @@ CREATE TABLE `template_attr_for_index` (
   UNIQUE KEY `template_id` (`template_id`,`attr_label`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
 /*Table structure for table `template_attr_sort` */
 
 DROP TABLE IF EXISTS `template_attr_sort`;
@@ -712,8 +653,6 @@ CREATE TABLE `template_attr_sort` (
   PRIMARY KEY (`template_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-/*Data for the table `template_attr_sort` */
-
 /*Table structure for table `test` */
 
 DROP TABLE IF EXISTS `test`;
@@ -722,8 +661,6 @@ CREATE TABLE `test` (
   `aa` bigint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`aa`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
-/*Data for the table `test` */
 
 /*Table structure for table `user` */
 

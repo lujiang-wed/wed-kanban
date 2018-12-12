@@ -6,10 +6,6 @@ import com.wednesday.kanban.domain.TemplateAttrIndex;
 
 import java.util.List;
 
-/**
- * Created by wyzhangdong on 2014/12/10.
- * 卡片模板修改的相关操作
- */
 public interface CardTemplateService {
 
     /**

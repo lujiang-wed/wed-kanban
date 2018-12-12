@@ -29,7 +29,7 @@ import java.util.List;
  * @version V1.0
  * @see
  */
-@Component("SpaceAuditBiz")
+@Component("spaceAuditBiz")
 public class SpaceAuditBizImpl implements SpaceAuditBiz {
 
     private static final Logger logger = LoggerFactory.getLogger(SpaceAuditBizImpl.class);
@@ -85,7 +85,7 @@ public class SpaceAuditBizImpl implements SpaceAuditBiz {
 
         }catch (Exception e){
             e.printStackTrace();
-            return "该用户和空间对应的权限已存在，请联系管理员：wyyangyang1";
+            return "该用户和空间对应的权限已存在，请联系管理员。";
         }
 
         return "SUCCESS";

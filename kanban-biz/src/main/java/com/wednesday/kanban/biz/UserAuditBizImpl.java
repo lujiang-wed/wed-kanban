@@ -12,9 +12,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-/**
- * Created by sushidong on 2015/4/21.
- */
 @Component("UserAuditBiz")
 public class UserAuditBizImpl implements UserAuditBiz {
 

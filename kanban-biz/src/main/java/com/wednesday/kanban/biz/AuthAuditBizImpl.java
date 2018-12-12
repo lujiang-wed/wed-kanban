@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * Created by wyyangyang1 on 2015/1/6.
- */
 @Component("authAuditBiz")
 public class AuthAuditBizImpl implements AuthAuditBiz {
     @Resource

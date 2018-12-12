@@ -1,19 +1,16 @@
 package com.wednesday.kanban.biz.transfer;
 
-import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.wednesday.kanban.common.param.TemplateAttrParam;
 import com.wednesday.kanban.common.param.TemplateParam;
 import com.wednesday.kanban.common.utils.BeanConverter;
 import com.wednesday.kanban.domain.CardTemplate;
 import com.wednesday.kanban.domain.CardTemplateAttr;
+import org.apache.commons.collections.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by wyzhangdong on 2014/12/10.
- */
 public class CardTemplateTransfer {
 
     public static TemplateParam transfer2TemplateParam(CardTemplate cardTemplate,List<CardTemplateAttr> attrList,List<CardTemplateAttr> parentAttrList){

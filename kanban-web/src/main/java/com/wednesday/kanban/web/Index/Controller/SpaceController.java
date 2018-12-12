@@ -1,6 +1,6 @@
 package com.wednesday.kanban.web.Index.Controller;
 
-import com.alibaba.dubbo.common.json.JSON;
+import com.alibaba.fastjson.JSON;
 import com.wednesday.kanban.biz.api.AuthAuditBiz;
 import com.wednesday.kanban.biz.api.AuthorityContentBiz;
 import com.wednesday.kanban.biz.api.CardAuditBiz;
@@ -13,9 +13,13 @@ import com.wednesday.kanban.common.result.SpaceResult;
 import com.wednesday.kanban.domain.Auth;
 import com.wednesday.kanban.domain.AuthorityContent;
 import com.wednesday.kanban.domain.Space;
+import com.wednesday.kanban.domain.UserInstance;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,12 +30,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Created by wyyangyang1 on 2014/12/24.
- */
+import static com.wednesday.kanban.web.Index.Controller.permission.CookieUtil.LOGIN_IDENTITY;
+import static com.wednesday.kanban.web.Index.Controller.permission.CookieUtil.getValue;
+import static com.wednesday.kanban.web.Index.Controller.permission.CookieUtil.parseToken;
+
 @Controller
 @RequestMapping("space")
 public class SpaceController {
+    private final Logger logger = LoggerFactory.getLogger(SpaceController.class);
+
     @Resource
     SpaceAuditBiz spaceAuditBiz;
 
@@ -43,7 +50,7 @@ public class SpaceController {
     @Resource
     CardAuditBiz cardAuditBiz;
 
-    private static final String SPRINT_COOKIE_NAME = "COACH_SPRINT_NAME_";
+    private static final String SPRINT_COOKIE_NAME = "Wed_KanBan_SPRINT_NAME_";
 
     /**
      * 初始化进入space页面时，加载space/main.vm
@@ -114,6 +121,7 @@ public class SpaceController {
 
         return "space/add";
     }
+
     @RequestMapping(value={"addAuth"})
     @ResponseBody
     public String addAuth(HttpServletRequest request, HttpServletResponse response,Model model) {
@@ -141,14 +149,18 @@ public class SpaceController {
         if((StringUtils.isEmpty(privilege))){
             return "添加的权限不存在";
         }
-        if(privilege.equals("r")){
-            auth.setPrivilege("r");
-        }else if(privilege.equals("m")){
-            auth.setPrivilege("m");
-        }else if(privilege.equals("s")){
-            auth.setPrivilege("s");
-        }else{
-            return "添加的权限不存在";
+        switch (privilege) {
+            case "r":
+                auth.setPrivilege("r");
+                break;
+            case "m":
+                auth.setPrivilege("m");
+                break;
+            case "s":
+                auth.setPrivilege("s");
+                break;
+            default:
+                return "添加的权限不存在";
         }
         try{
             if(authAuditBiz.addAuth(auth) != 0){
@@ -167,9 +179,6 @@ public class SpaceController {
         Auth auth = new Auth();
         try{
             Long spaceId = Long.parseLong(request.getParameter("spaceId"));
-            if(spaceId == null){
-                return "spaceId不能为空";
-            }
             auth.setSid(spaceId);
         }catch(Exception e){
             e.printStackTrace();
@@ -184,14 +193,18 @@ public class SpaceController {
         if((StringUtils.isEmpty(privilege))){
             return "修改的权限不存在";
         }
-        if(privilege.equals("r")){
-            auth.setPrivilege("r");
-        }else if(privilege.equals("m")){
-            auth.setPrivilege("m");
-        }else if(privilege.equals("s")){
-            auth.setPrivilege("s");
-        }else{
-            return "待修改权限不存在";
+        switch (privilege) {
+            case "r":
+                auth.setPrivilege("r");
+                break;
+            case "m":
+                auth.setPrivilege("m");
+                break;
+            case "s":
+                auth.setPrivilege("s");
+                break;
+            default:
+                return "待修改权限不存在";
         }
         try{
             if(authAuditBiz.modifyAuth(auth) != 0){
@@ -199,7 +212,7 @@ public class SpaceController {
             }
             return "修改用户权限失败";
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("修改用户权限失败");
             return "修改用户权限失败";
         }
     }
@@ -210,12 +223,9 @@ public class SpaceController {
         Auth auth = new Auth();
         try{
             Long spaceId = Long.parseLong(request.getParameter("spaceId"));
-            if(spaceId == null){
-                return "spaceId不能为空";
-            }
             auth.setSid(spaceId);
         }catch(Exception e){
-            e.printStackTrace();
+            logger.error("spaceId错误");
             return "spaceId错误";
         }
         if(StringUtils.isEmpty(request.getParameter("user"))){
@@ -249,7 +259,7 @@ public class SpaceController {
         space.setSpaceDesc(request.getParameter("spaceDesc"));
         space.setSpacePin(request.getParameter("spacePin"));
         String parentSpacePin = request.getParameter("parentSpacePin");
-        String user = request.getParameter("user");
+        String user = parseToken(getValue(request,LOGIN_IDENTITY)).getUserName();
 
         SpaceQueryParam space4query = new SpaceQueryParam();
         space4query.setSpacePin(request.getParameter("spacePin"));
@@ -324,19 +334,18 @@ public class SpaceController {
         return spaceAuditBiz.modifySpace(space);
     }
 
-    @RequestMapping("getTree.htm")
+    @RequestMapping(value = "getTree.htm",method = {RequestMethod.POST})
     @ResponseBody
-    public String createTreeInfo(HttpServletRequest request, HttpServletResponse response,Model model){
+    public String createTreeInfo(HttpServletRequest request, HttpServletResponse response){
 
-        //String rootId = request.getParameter("rootId");
-        String user = "yy"; //获取用户名
+        UserInstance user = parseToken(getValue(request,LOGIN_IDENTITY));
 
         //获取用户JSON权限
-        String authContent = authorityContentBiz.findContentByUser(user);
+        String authContent = authorityContentBiz.findContentByUser(user.getUserName());
         if (null != authContent && !"".equals(authContent)){
             return authContent;
         }
-        List<Auth> auths = authAuditBiz.findByUser(user);
+        List<Auth> auths = authAuditBiz.findByUser(user.getUserName());
         Map<Long,AuthEnum> authMap = new HashMap<Long, AuthEnum>();
 
         for (Auth auth : auths){
@@ -349,13 +358,13 @@ public class SpaceController {
             return "no such spaceId";
         }
         try {
-            String content = JSON.json(spaceTreeNode);
+            String content = JSON.toJSONString(spaceTreeNode);
             //存储用户JSON串权限
-            AuthorityContent authorityContent = new AuthorityContent(user,content);
+            AuthorityContent authorityContent = new AuthorityContent(user.getUserName(),content);
             authorityContentBiz.addContent(authorityContent);
             return content;
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+
         }
         return "create tree fail";
     }
@@ -410,39 +419,6 @@ public class SpaceController {
         }
     }
 
-
-
-
-
-/*    @RequestMapping(value={"getRootSpaceList"})
-    public String getRootSpaceList() {
-        //根据登陆人，找出权限表中登陆人拥有的space_id
-        List<String> sids = authAuditBiz.findByUser(request.getParameter("user"));
-        //并将这些spaceId下面的树组装出来，存储到以spaceId为key的HashMap中
-        Map<Long,SpaceTreeNode> trees = new HashMap<Long, SpaceTreeNode>();
-        if(authAuditBiz.findAll()!= null){
-            for(Auth auth:authAuditBiz.findAll()){
-                SpaceTreeNode spaceTreeNode = initSpaceTree(auth.getSid());
-                trees.put(auth.getSid(), spaceTreeNode);
-            }
-        }
-
-        //将组装出来的森林的所有节点，放到以sid为key，出现次数为value的Map中
-        Map<Long,Integer> nodeCountMap = new HashMap<Long,Integer>();
-        for(SpaceTreeNode s:trees.values()){
-            //遍历树，计数，并放到map中
-            iteratorTree(s,nodeCountMap);
-        }
-
-        //如果森林中树根在整个森林中只出现过一次，那么保留，否则，删除该树
-        Map<Long,SpaceTreeNode> treesResult = new HashMap<Long, SpaceTreeNode>();
-        for(Long sid:trees.keySet()){
-            if(nodeCountMap.get(sid)==1){
-                treesResult.put(sid,trees.get(sid));
-            }
-        }
-        return "space/add";
-    }*/
 
     class AuthNodeCount{
         private int count;
@@ -572,29 +548,4 @@ public class SpaceController {
             }
         }
     }
-
-
-
- /*   //TODO　树形结构应只包含空间ＩＤ和空间名
-    private SpaceTreeNode initSpaceTree(Long sid) {
-        //根据id，从数据库组装Space
-        SpaceResult space = spaceAuditBiz.findOne(sid);
-
-        //通过当前空间，创建空间树的当前节点，
-        SpaceTreeNode stn = new SpaceTreeNode(space);
-
-        //如果有子节点，则循环所有子节点，递归初始化
-        List<Long> childSpaceList = space.getSonSpaceList();
-        if(childSpaceList.size()!=0){
-            List<SpaceTreeNode> childList = new ArrayList<SpaceTreeNode>();
-            for(Long childId : childSpaceList){
-                SpaceResult childSpace = spaceAuditBiz.findOne(childId);
-                //TODO:获取子空间信息，再进行组装
-
-                //childList.add(initSpaceTree(childSid.getId()));
-            }
-            stn.setChildList(childList);
-        }
-        return stn;
-    }*/
 }

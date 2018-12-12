@@ -4,10 +4,6 @@ import com.wednesday.kanban.common.BaseEntity;
 
 import java.util.List;
 
-/**
- * Created by wyzhangdong on 2014/12/10.
- * 模版对象
- */
 public class TemplateParam extends BaseEntity{
 
     /**

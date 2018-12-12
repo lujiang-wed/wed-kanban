@@ -11,15 +11,6 @@
                 <input type="hidden" name="spaceId" value="$!{spaceId}">
             </div>
         </div>
-#*        <div class="control-group">
-            <label class="control-label" for="name">模板类型</label>
-            <div class="controls">
-                <select name="cardType">
-                    <option value="11">task</option>
-                    <option value="12">story</option>
-                </select>
-            </div>
-        </div>*#
         <div class="control-group">
             <label class="control-label" for="inputEmail">父模版</label>
             <div class="controls">

@@ -7,10 +7,6 @@ import com.wednesday.kanban.domain.TemplateAttrIndex;
 
 import java.util.List;
 
-/**
- * Created by wyzhangdong on 2014/12/10.
- * 卡片模板查询操作的service
- */
 public interface CardTemplateQueryService {
 
     /**

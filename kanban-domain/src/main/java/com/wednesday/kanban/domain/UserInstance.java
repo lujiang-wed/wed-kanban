@@ -4,26 +4,27 @@ import java.util.List;
 
 public class UserInstance extends BaseDomain {
 
-    /**
-     * 用户类型
-     */
     private Integer userType;
 
-    /**
-     * 用户登录名
-     */
     private String userId;
 
-    /**
-     * 用户名
-     */
     private String userName;
+
+    private String userPwd;
 
     private List<Perm> perms;
 
     private String permissions;
 
     private String permissionDesc;
+
+    public String getUserPwd() {
+        return userPwd;
+    }
+
+    public void setUserPwd(String userPwd) {
+        this.userPwd = userPwd;
+    }
 
     public String getPermissionDesc() {
         return permissionDesc;
@@ -79,10 +80,13 @@ public class UserInstance extends BaseDomain {
 
     @Override
     public String toString() {
-        return "UserParam{" +
-                "userId=" + userId +
-                ", userName=" + userName +
-                ", userType=" + userType +
-                "}";
+        return "UserInstance{" +
+                "userType=" + userType +
+                ", userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", perms=" + perms +
+                ", permissions='" + permissions + '\'' +
+                ", permissionDesc='" + permissionDesc + '\'' +
+                "} " + super.toString();
     }
 }

@@ -2,9 +2,6 @@ package com.wednesday.kanban.common.param;
 
 import com.wednesday.kanban.common.BaseEntity;
 
-/**
- * Created by wyzhangdong on 2014/12/10.
- */
 public class TemplateAttrParam extends BaseEntity{
 
     /**

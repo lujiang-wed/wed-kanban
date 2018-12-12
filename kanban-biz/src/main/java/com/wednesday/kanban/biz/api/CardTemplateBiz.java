@@ -7,9 +7,6 @@ import com.wednesday.kanban.domain.TemplateAttrIndex;
 
 import java.util.List;
 
-/**
- * Created by wyzhangdong on 2014/12/10.
- */
 public interface CardTemplateBiz {
 
     /**

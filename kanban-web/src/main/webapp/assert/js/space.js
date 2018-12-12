@@ -1,7 +1,3 @@
-/**
- * Created by wyyangyang1 on 2014/12/30.
- */
-
 function addNewSpace(){
     $("#alertText").html('');
     $("#alertText").attr("style","display: none");
@@ -10,7 +6,6 @@ function addNewSpace(){
     var inputSpacePin=$("#inputSpacePin").val();
     var inputParentSpacePin=$("#inputParentSpacePin").val();
     var inputSpaceDes=$("#inputSpaceDes").val();
-    var user ="yy";
     if(inputSpaceName=='' || inputSpacePin==''|| inputSpaceDes==''){
         $("#alertText").html('"空间名称"或"唯一标识"或"空间描述"不能为空');
         $("#alertText").attr("style","");
@@ -23,7 +18,12 @@ function addNewSpace(){
     $.ajax({
             url:url,
             type:"GET",
-            data:{spaceName:inputSpaceName,spacePin:inputSpacePin,parentSpacePin:inputParentSpacePin,spaceDesc:inputSpaceDes,user:user},
+            data:{
+                spaceName:inputSpaceName,
+                spacePin:inputSpacePin,
+                parentSpacePin:inputParentSpacePin,
+                spaceDesc:inputSpaceDes
+            },
             success:function(data){
                 //这里是执行程序之后的操作
                 alert(data) ;

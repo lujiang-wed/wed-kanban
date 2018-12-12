@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-/**
- * Created by sushidong on 2015/4/21.
- */
 @Component("userQueryService")
 public class UserQueryServiceImpl implements UserQueryService {
     @Resource

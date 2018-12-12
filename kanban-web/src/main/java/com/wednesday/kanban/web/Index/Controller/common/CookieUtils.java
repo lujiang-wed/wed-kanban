@@ -1,7 +1,3 @@
-/**
- * Copyright (c) 2014, wylipengming@jd.com|shouli1990@gmail.com. All rights reserved.
- *
- */
 package com.wednesday.kanban.web.Index.Controller.common;
 
 import javax.servlet.http.Cookie;

@@ -3,8 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
-    <bean name="dataSource4coach" class="org.apache.commons.dbcp.BasicDataSource">
+    <bean name="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
@@ -29,23 +28,21 @@
         <property name="validationQuery" value="select 1"/>
     </bean>
 
-    <bean name="sqlSessionFactory4coach" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource4coach"/>
+    <bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
     </bean>
 
-    <bean name="sqlSessionTemplate4coach" class="org.mybatis.spring.SqlSessionTemplate">
-        <constructor-arg ref="sqlSessionFactory4coach"/>
+    <bean name="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory"/>
     </bean>
 
-    <bean name="txManager4coach" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource4coach"/>
+    <bean name="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <bean name="superDao" class="com.wednesday.kanban.dao.SuperDAO">
-        <property name="sqlSessionTemplate" ref="sqlSessionTemplate4coach"/>
-        <property name="sqlSessionFactory" ref="sqlSessionFactory4coach"/>
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
-
-
 </beans>
