@@ -69,39 +69,6 @@ public class CardController {
 
         Page<CardResult> cardPage = null;
 
-//        if(cardTypeIdStr == null || "-1".equals(cardTypeIdStr) || "-1".equals(cardTypeStr)) {
-//            CardParam cardParam = new CardParam();
-//            cardParam.setSpaceId(Long.parseLong(spaceId));
-//            if (StringUtils.isNumeric(templateIdStr) && !"-1".equals(templateIdStr)) {
-//                cardParam.setTemplateId(Long.parseLong(templateIdStr));
-//            }
-//            if (StringUtils.isNumeric(sprintStr) && !"-1".equals(sprintStr)) {
-//                cardParam.setSprint(Integer.parseInt(sprintStr));
-//            }
-//            if (StringUtils.isNumeric(pageNoStr)) {
-//                cardParam.setPageNo(Integer.parseInt(pageNoStr));
-//            }
-//            cardParam.setPageSize(30);
-//            cardPage = cardAuditBiz.findAll(cardParam);
-//        } else {
-//            CardAttrQueryParam cardAttrQueryParam = new CardAttrQueryParam();
-//            cardAttrQueryParam.setSpaceId(Long.parseLong(spaceId));
-//            cardAttrQueryParam.setTemplateId(Long.parseLong(templateIdStr));
-//            cardAttrQueryParam.setPageSize(30);
-//            if (StringUtils.isNumeric(pageNoStr)) {
-//                cardAttrQueryParam.setPageNo(Integer.parseInt(pageNoStr));
-//            }
-//
-//            List<CardAttrParam> cardAttrList = new ArrayList<CardAttrParam>();
-//            CardAttrParam cap = new CardAttrParam();
-//            cap.setAttrId(Long.parseLong(cardTypeIdStr));
-//            cap.setAttrValue(cardTypeStr);
-//            cardAttrList.add(cap);
-//            cardAttrQueryParam.setCardAttrList(cardAttrList);
-//
-//            cardPage = cardAuditBiz.findByCondition(cardAttrQueryParam);
-//        }
-
         CardParam cardParam = new CardParam();
         cardParam.setSpaceId(Long.parseLong(spaceId));
         if (StringUtils.isNumeric(templateIdStr) && !"-1".equals(templateIdStr)) {

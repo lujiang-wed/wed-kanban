@@ -72,7 +72,6 @@ public class SpaceController {
      * @param model
      * @return
      */
-    //@Permission(value = Perm.SHOW_SPACE)
     @RequestMapping(value={"showSpace.htm"})
     public String showSpace(HttpServletRequest request, HttpServletResponse response,Model model) {
         //加载空间详情
@@ -291,7 +290,7 @@ public class SpaceController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "alterSpace",method = RequestMethod.GET)
+    @RequestMapping(value = "alterSpace",method = RequestMethod.POST)
     @ResponseBody
     public String alterSpace(HttpServletRequest request, HttpServletResponse response,Model model){
         Space space = new Space();

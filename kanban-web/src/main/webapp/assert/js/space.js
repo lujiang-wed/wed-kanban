@@ -53,7 +53,7 @@ function alterSpace(){
 
     $.ajax({
             url:url,
-            type:"GET",
+            type:"POST",
             data:{spaceId:spaceId,spaceName:inputSpaceName,spacePin:inputSpacePin,parentSpacePin:inputParentSpacePin,spaceDesc:inputSpaceDes},
             success:function(data){
                 //这里是执行程序之后的操作

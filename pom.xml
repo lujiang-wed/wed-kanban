@@ -30,8 +30,10 @@
     </licenses>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <project-version>1.0.0</project-version>
-        <spring-version>4.3.2.RELEASE</spring-version>
+        <spring-version>4.3.10.RELEASE</spring-version>
 
         <avalon_version>4.2.0</avalon_version>
         <jdom_version>1.0</jdom_version>
@@ -122,11 +124,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
                 <version>${spring-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.ldap</groupId>
-                <artifactId>spring-ldap</artifactId>
-                <version>1.2.1</version>
             </dependency>
 
             <!-- mybatis-spring -->
@@ -364,11 +361,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.ldap</groupId>
-            <artifactId>spring-ldap</artifactId>
-            <version>1.2.1</version>
-        </dependency>
 
         <!-- mybatis-spring -->
         <dependency>
@@ -392,6 +384,16 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.1.36</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.5</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
