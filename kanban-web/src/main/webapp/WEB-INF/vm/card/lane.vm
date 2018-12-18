@@ -216,18 +216,6 @@
     }
 
     function loadSingleCard(singleCard, i, j) {
-
-//        console.info(singleCard);
-//        console.info(singleCard.cardAttrList);
-//
-//        for (var k = 0; k < singleCard.cardAttrList.length; k++) {
-//            if (singleCard.cardAttrList[k].attrName == "RD用点") {
-//                RDestimate = 10;
-//                console.log('RDestimate = ' + singleCard.cardAttrList[k].attrName);
-//                RDestimateFound = true;
-//            }
-//        }
-
         var estimate = "0";
         var prior = "5";
         var developer = "";
@@ -241,10 +229,7 @@
         var priorFound = false;
         var devFound = false;
         var testFound = false;
-//        var numberMap = {};//用于存储number元素 key为属性值 value为操作方式
-//--动态配置加减
-//        var settingNumMap = {};/用于存储number元素 key为属性值 value为操作方式
-        var numberMap = new Map();//用于存储number元素 key为属性名 value为属性值以及操作方式
+        var numberMap = new Map();
         //--动态配置加减
         var cardAttrList = singleCard.cardAttrList;
         for (var k = 0; k < cardAttrList.length; k++) {
@@ -258,18 +243,11 @@
                 console.info('cardAttr.attrOption = ' + cardAttr.attrInputOption);
                 numberMap.put(cardAttr.attrName, cardAttr.attrValue + "|" + cardAttr.attrInputOption + "|" + cardAttr.attrId);
             }
-            if (cardAttr.attrName == "估点") {
-                estimate = cardAttr.attrValue;
-                //   console.log(estimate);
-                // System.out.p
-                estimateFound = true;
-            } else if (cardAttr.attrName == "优先级") {
+            if (cardAttr.attrName == "优先级") {
                 prior = cardAttr.attrValue;
-                //   console.log(prior);
                 priorFound = true;
             } else if (cardAttr.attrName == "QA用点") {
                 QAestimate = cardAttr.attrValue;
-                //   console.log(prior);
                 if (QAestimate == "")
                     QAestimate = "0";
                 QAestimateFound = true;
@@ -278,23 +256,16 @@
                 RDestimate = cardAttr.attrValue;
                 if (RDestimate == "")
                     RDestimate = "0";
-                //    console.log('RDestimate = ' + RDestimate);
                 RDestimateFound = true;
             }
             else if (cardAttr.attrName == "测试负责人") {
                 tester = cardAttr.attrValue;
-                // console.log(tester);
                 testFound = true;
             }
             else if (cardAttr.attrName == "开发负责人") {
                 developer = cardAttr.attrValue;
-                // console.log(developer);
                 devFound = true;
             }
-
-            //   if (estimateFound && priorFound && devFound && testFound && RDestimateFound&& QAestimateFound) {
-            //  break;
-            //   }
         }
 
         console.log("--------------for over--------------");
@@ -359,22 +330,18 @@
                     labelNumber.setAttribute("class", "right");
                     labelNumber.setAttribute("style", "position:absolute;right:-3px;height:0px;width:60px;bottom:18px;")
                     labelNumber.innerHTML = attrValue + "<span id=plusSpan" + singleCard.id + " style = cursor:pointer;display:inline-block;width:15px;height:15px;background-color:#DCDCDC;line-height:15px onclick = onPlusClickFunction(&quot;#DCDCDC&quot;," + templateId + "," + cardId + "," + attrId + "," + attrValue + "," + "&quot;" + labelNumber.id + "&quot;,&quot;2&quot;)>  +</span>" + "<span id=&quot;minusSpan" + "" + singleCard.id + " style = cursor:pointer;display:inline-block;width:15px;height:15px;background-color:#DCDCDC;line-height:15px; onclick = onMinusClickFunction(&quot;#DCDCDC&quot;," + templateId + "," + cardId + "," + attrId + "," + attrValue + "," + "&quot;" + labelNumber.id + "&quot;,&quot;2&quot;)>   -</span>";
-                    // labelNumber.setAttribute("style","background-color:#666666")
                     divCard.appendChild(labelNumber);
                 }
                 else if (attrOpt == "0") {
                     labelNumber.setAttribute("class", "right");
-                    //labelNumber.setAttribute("style","background-color:#666666")
                     labelNumber.setAttribute("style", "position:absolute;right:-3px;height:0px;width:60px;bottom:18px;")
                     labelNumber.innerHTML = attrValue + "<span id=plusSpan" + singleCard.id + " style = cursor:pointer;display:inline-block;width:15px;height:15px;background-color:#DCDCDC;line-height:15px onclick = onPlusClickFunction(&quot;#DCDCDC&quot;," + templateId + "," + cardId + "," + attrId + "," + attrValue + "," + "&quot;" + labelNumber.id + "&quot;,&quot;0&quot;)>  +</span>";
-                    //   labelNumber.setAttribute("style","background-color:#666666")
                     divCard.appendChild(labelNumber);
                 }
                 else {
                     labelNumber.setAttribute("class", "right");
                     labelNumber.setAttribute("style", "position:absolute;right:-3px;height:0px;width:60px;bottom:18px;")
                     labelNumber.innerHTML = attrValue + "<span id=&quot;minusSpan" + "" + singleCard.id + " style = cursor:pointer;display:inline-block;width:15px;height:15px;background-color:#DCDCDC;line-height:15px; onclick = onMinusClickFunction(&quot;#DCDCDC&quot;," + templateId + "," + cardId + "," + attrId + "," + attrValue + "," + "&quot;" + labelNumber.id + "&quot;,&quot;1&quot;)>   -</span>";
-                    //     labelNumber.setAttribute("style","background-color:#666666")
                     divCard.appendChild(labelNumber);
                 }
             }
@@ -409,17 +376,13 @@
         titleSpan.setAttribute("class", "mid");
         titleSpan.innerHTML = titleSpanContent;
         divCard.appendChild(titleSpan);
-        // alert(i);
         document.getElementById("span" + i).appendChild(divCard);
         divCard.style.top = titleHeight + divCard.offsetHeight * j + 20 * (j + 1) + "px";
         divCard.style.left = spanWidth * i + divCard.marginLeft + "px";
-        //  alert( divCard.style.top+" "+ divCard.style.left);
-        //console.log(j+":"+divCard.offsetTop+";i:"+divCard.offsetLeft);
 
     }
 
     function onMinusClickFunction(colorName, templateId, cardId, attrId, attrValue, eventFlag, labelFormat) {
-//
         var newValue = attrValue - 0.5;
         if (newValue < 0) {
             alert("点数无法为负数");
@@ -432,7 +395,7 @@
         $.ajax({
             url: url,
             data: formData,
-            type: 'POST'//为什么用get不可以
+            type: 'POST'
         }).done(function (data) {
                     var label = document.getElementById(eventFlag);
                     if (labelFormat == "2")

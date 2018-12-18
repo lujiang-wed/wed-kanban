@@ -7,33 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: <a href='mailto:wylipengming@chinabak.com.cn'>wylipengming</a>
- * Date: 14-4-14
- * Time: 上午11:17
- * <p>
- *     <h>需要excel导出功能的controller继承此方法，并且调用outputExcel方法</h>
- *     <b>注：T表示列表的对象，D表示统计对象</b>
- *     <p>
- *         如：
- *           @RequestMapping(value = {"/outputExcel.htm"},method = {RequestMethod.GET})
- *           @Override
- *           public void exportExcel(HttpServletResponse response, HttpServletRequest request) {
- *               ConsumeInfoQueryParam param = new ConsumeInfoQueryParam();
- *               super.bindRequestParam(request, param);
- *               ParamWrapper<ConsumeInfoQueryParam> paramWrapper = super.genParam(param,request);
- *               outputExcel(request,response,paramWrapper,false);
- *           }
- *     </p>
- * </p>
- *
- * 使用场景：
- * 1、需要excel导出功能的controller
- * 2、单一的入参对象以及返回结果对象
- * 3、入参集成自 BasePageParam，结果继承自 Page
- *
- */
 public abstract class ExcelController<T,D,P> extends ExcelHelper {
     private String configPath;
     private String title;

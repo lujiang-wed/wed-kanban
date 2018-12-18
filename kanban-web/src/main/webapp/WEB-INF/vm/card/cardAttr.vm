@@ -11,19 +11,28 @@
         类型
     </td>
     <td>
-            #if($cardType == 1)
-                <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr" value="1" checked="checked"/> Story</label></div>
-                <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr" value="2"/> Task</label></div>
-                <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr" value="3"/> Bug</label></div>
-            #elseif($cardType == 2)
-                <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr" value="1"/> Story</label></div>
-                <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr" value="2" checked="checked"/> Task</label></div>
-                <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr" value="3"/> Bug</label></div>
-            #elseif($cardType == 3)
-                <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr" value="1"/> Story</label></div>
-                <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr" value="2"/> Task</label></div>
-                <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr" value="3" checked="checked"/> Bug</label></div>
-            #end
+        #if($cardType == 1)
+            <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr"
+                                                               value="1" checked="checked"/> Story</label></div>
+            <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr"
+                                                               value="2"/> Task</label></div>
+            <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr"
+                                                               value="3"/> Bug</label></div>
+        #elseif($cardType == 2)
+            <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr"
+                                                               value="1"/> Story</label></div>
+            <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr"
+                                                               value="2" checked="checked"/> Task</label></div>
+            <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr"
+                                                               value="3"/> Bug</label></div>
+        #elseif($cardType == 3)
+            <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr"
+                                                               value="1"/> Story</label></div>
+            <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr"
+                                                               value="2"/> Task</label></div>
+            <div class="btn-group"><label class="radio"><input type="radio" name="cardType" class="templateAttr"
+                                                               value="3" checked="checked"/> Bug</label></div>
+        #end
     </td>
 </tr>
 <tr>
@@ -34,30 +43,25 @@
         <input type="text" name="sprint" class="numberTemplate" value="$sprint"/>
     </td>
 </tr>
-#*<tr>
-    <td>
-        上线时间
-    </td>
-    <td>
-        <input type="text" name="endLife" value="$!endLife"/>
-    </td>
-</tr>*#
+
 #foreach($item in $templateAttrList)
-    #if(${item.getTemplateName()} != "richText"&& ${item.getAttrLabel()} != "创建时间"&& ${item.getAttrLabel()} != "编号"&& ${item.getAttrLabel()} != "状态"&& ${item.getAttrLabel()} != "模板"&& ${item.getAttrLabel()} != "创建人"&& ${item.getAttrLabel()} != "标题"&& ${item.getAttrLabel()} != "类型"&& ${item.getAttrLabel()} != "迭代")
-        <tr>
-            <td style="width:10%">${item.attrLabel}</td>
-            <td>
-                #parse("inc/templete/${item.getTemplateName()}.vm")
-            </td>
-        </tr>
+    #if(${item.getTemplateName()} != "richText"&& ${item.getAttrLabel()} != "创建时间"&& ${item.getAttrLabel()} !=
+        "编号"&& ${item.getAttrLabel()} != "状态"&& ${item.getAttrLabel()} != "模板"&& ${item.getAttrLabel()} !=
+        "创建人"&& ${item.getAttrLabel()} != "标题"&& ${item.getAttrLabel()} != "类型"&& ${item.getAttrLabel()} != "迭代")
+    <tr>
+        <td style="width:10%">${item.attrLabel}</td>
+        <td>
+            #parse("inc/templete/${item.getTemplateName()}.vm")
+        </td>
+    </tr>
     #elseif(${item.getTemplateName()} == "richText")
-        <tr>
-            <td colspan="2" style="text-align: center">${item.attrLabel}</td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                #parse("inc/templete/${item.getTemplateName()}.vm")
-            </td>
-        </tr>
+    <tr>
+        <td colspan="2" style="text-align: center">${item.attrLabel}</td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            #parse("inc/templete/${item.getTemplateName()}.vm")
+        </td>
+    </tr>
     #end
 #end

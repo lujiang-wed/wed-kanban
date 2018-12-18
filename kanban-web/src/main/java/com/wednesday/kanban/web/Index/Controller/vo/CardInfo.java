@@ -25,13 +25,14 @@ public class CardInfo extends CardResult implements Serializable {
 
     static {
         mapping.put("优先级",3);
-        mapping.put("实用点数",5);
-        mapping.put("RD估点",7);
+        mapping.put("RD估点",5);
         mapping.put("QA估点",6);
-        mapping.put("估点",1);
+        mapping.put("RD用点",7);
+        mapping.put("QA用点",8);
         mapping.put("开发负责人",0);
+        mapping.put("产品负责人",1);
         mapping.put("测试负责人",2);
-        mapping.put("详细描述",4);
+        mapping.put("需求概要",4);
     }
 
     public CardInfo() {
